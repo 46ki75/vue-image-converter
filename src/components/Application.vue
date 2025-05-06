@@ -21,7 +21,7 @@
           :key="file.name"
           :file="file"
           :loading="loading"
-          @delete="resetInputImages"
+          @delete="removeInputImage(file.name)"
         />
       </ImageContainer>
     </transition>
@@ -57,7 +57,7 @@
           :key="file.name"
           :file="file"
           :loading="loading"
-          @delete="resetOupputImages"
+          @delete="removeOupputImage(file.name)"
         />
       </ImageContainer>
     </transition>
@@ -84,6 +84,8 @@ const {
   progress,
   resetInputImages,
   resetOupputImages,
+  removeInputImage,
+  removeOupputImage,
   convert,
 } = useImageConverter();
 
