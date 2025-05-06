@@ -108,6 +108,7 @@ const downloadFile = async ({
 
 <style module lang="scss">
 .container {
+  flex-shrink: 0;
   width: 12rem;
   padding: 0;
   margin: 0;

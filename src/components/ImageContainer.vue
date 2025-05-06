@@ -7,7 +7,12 @@
   <transition-group
     v-else
     tag="div"
-    :class="$style.container"
+    :class="[
+      $style.container,
+      {
+        [$style.empty]: empty,
+      },
+    ]"
     :enter-from-class="transitionStyle['v-enter-from']"
     :enter-active-class="transitionStyle['v-enter-active']"
     :enter-to-class="transitionStyle['v-enter-to']"
@@ -15,7 +20,12 @@
     :leave-active-class="transitionStyle['v-leave-active']"
     :leave-to-class="transitionStyle['v-leave-to']"
   >
-    <slot></slot>
+    <div v-if="empty" key="empty">
+      <ElmMdiIcon :d="mdiImageOff" color="gray" size="1.5rem" />
+      <ElmInlineText :text="text" color="gray" />
+    </div>
+
+    <slot v-else />
   </transition-group>
 </template>
 
@@ -34,17 +44,21 @@ defineProps<{
 <style module lang="scss">
 .container {
   width: 100%;
+  height: 12rem;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
   gap: 0.5rem;
+  overflow-y: auto;
 }
 
 .empty {
+  box-sizing: border-box;
   width: 100%;
-  height: 11.5rem;
+  padding-block: 0.25rem;
+  height: 12rem;
   border: 1px dashed rgba(gray, 0.8);
   border-radius: 0.25rem;
   display: flex;
