@@ -7,9 +7,13 @@
         color="gray"
         style="flex-shrink: 0"
       />
-      <span :class="$style.filename" :title="filename">
-        <ElmInlineText :text="filename" size="0.9rem" />
-      </span>
+
+      <ElmInlineText
+        :class="$style.filename"
+        :title="filename"
+        :text="filename"
+        size="0.9rem"
+      />
     </div>
     <div :class="$style['image-container']">
       <img
