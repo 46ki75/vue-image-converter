@@ -16,7 +16,7 @@
 }
 </style>
 
-<style scoped lang="scss">
+<style lang="scss">
 .v-enter-to,
 .v-leave-from {
   opacity: 1;

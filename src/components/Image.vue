@@ -124,12 +124,26 @@ const downloadFile = async ({
   background-size: 10px 10px;
 }
 
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 0.95;
+  }
+}
+
 .image {
   display: block;
   user-select: none;
   max-width: 100%;
   max-height: 100%;
   object-fit: contain;
+
+  animation-name: fade;
+  animation-delay: 500ms;
+  animation-duration: 300ms;
+  animation-fill-mode: both;
 }
 
 .control {
