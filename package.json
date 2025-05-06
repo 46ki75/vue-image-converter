@@ -1,29 +1,49 @@
 {
-  "name": "vite-project",
-  "private": true,
-  "version": "0.0.0",
+  "name": "vue-image-converter",
+  "version": "0.1.0",
   "type": "module",
+  "author": "Chomolungma Shirayuki",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:46ki75/vue-image-converter.git"
+  },
+  "homepage": "https://46ki75.github.io/vue-image-converter",
+  "files": [
+    "dist"
+  ],
+  "types": "./dist/lib.d.ts",
+  "module": "./dist/lib.mjs",
+  "exports": {
+    ".": {
+      "types": "./dist/lib.d.ts",
+      "default": "./dist/lib.mjs"
+    }
+  },
   "scripts": {
-    "dev": "vite",
-    "build": "vue-tsc -b && vite build",
+    "dev": "vite --config ./vite.config.dev.ts",
+    "prepublishOnly": "npm run build",
+    "build": "vue-tsc -b && vite build --config ./vite.config.build.ts",
     "preview": "vite preview"
   },
   "peerDependencies": {
     "vue": "3.5"
   },
   "devDependencies": {
+    "@types/node": "^22.15.12",
     "@vitejs/plugin-vue": "^5.2.3",
     "@vue/tsconfig": "^0.7.0",
     "sass-embedded": "^1.87.0",
-    "typescript": "~5.8.3",
+    "typescript": "^5.8.3",
     "vite": "^6.3.5",
-    "vue-tsc": "^2.2.8"
-  },
-  "dependencies": {
-    "@elmethis/core": "1.0.0-alpha.195",
-    "@mdi/js": "^7.4.47",
-    "@vueuse/core": "^13.1.0",
+    "vite-plugin-css-injected-by-js": "^3.5.2",
+    "vite-plugin-dts": "^4.5.3",
+    "vue-tsc": "^2.2.8",
     "comlink": "^4.4.2",
     "web-image-converter": "^0.1.0"
+  },
+  "dependencies": {
+    "@elmethis/core": "^0.1.0",
+    "@mdi/js": "^7.4.47",
+    "@vueuse/core": "^13.1.0"
   }
 }

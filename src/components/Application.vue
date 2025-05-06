@@ -101,6 +101,10 @@ import { ref } from "vue";
 import { useDropZone } from "@vueuse/core";
 import { mdiTooltipImage } from "@mdi/js";
 
+const props = defineProps<{
+  imageConverterFunctionMap: Parameters<typeof useImageConverter>[0];
+}>();
+
 const {
   loading,
   inputImages,
@@ -112,7 +116,7 @@ const {
   removeInputImage,
   removeOupputImage,
   convert,
-} = useImageConverter();
+} = useImageConverter(props.imageConverterFunctionMap);
 
 const dropZoneRef = ref<HTMLDivElement>();
 
