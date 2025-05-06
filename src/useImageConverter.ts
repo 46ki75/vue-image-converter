@@ -20,6 +20,18 @@ export const useImageConverter = () => {
     outputImages.value = [];
   };
 
+  const removeInputImage = (fileName: string) => {
+    inputImages.value = inputImages.value.filter(
+      (image) => image.name !== fileName
+    );
+  };
+
+  const removeOupputImage = (fileName: string) => {
+    outputImages.value = outputImages.value.filter(
+      (image) => image.name !== fileName
+    );
+  };
+
   const convert = async (format: ImageFormat): Promise<void> => {
     if (inputImages.value.length === 0) return;
 
@@ -61,6 +73,8 @@ export const useImageConverter = () => {
     outputImages,
     resetInputImages,
     resetOupputImages,
+    removeInputImage,
+    removeOupputImage,
     convert,
   };
 };
