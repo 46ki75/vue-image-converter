@@ -20,7 +20,7 @@
         <ElmInlineText text="Select File" />
       </ElmButton>
 
-      <ElmButton block @click="() => fileInputRef?.click()">
+      <ElmButton block @click="() => (selectedFiles = [])">
         <ElmMdiIcon :d="mdiImageOff" color="#c56565" size="1.25rem" />
         <ElmInlineText color="#c56565" text="Clear All" />
       </ElmButton>
