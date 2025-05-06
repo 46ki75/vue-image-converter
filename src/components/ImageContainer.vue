@@ -1,5 +1,14 @@
 <template>
-  <transition-group tag="div" :class="$style.container">
+  <transition-group
+    tag="div"
+    :class="$style.container"
+    :enter-from-class="$style['v-enter-from']"
+    :enter-active-class="$style['v-enter-active']"
+    :enter-to-class="$style['v-enter-to']"
+    :leave-from-class="$style['v-leave-from']"
+    :leave-active-class="$style['v-leave-active']"
+    :leave-to-class="$style['v-leave-to']"
+  >
     <slot></slot>
   </transition-group>
 </template>
@@ -14,9 +23,7 @@
   align-items: center;
   gap: 0.5rem;
 }
-</style>
 
-<style lang="scss">
 .v-enter-to,
 .v-leave-from {
   opacity: 1;

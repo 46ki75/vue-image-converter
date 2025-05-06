@@ -12,7 +12,14 @@
       />
     </div>
     <div :class="$style.control">
-      <transition>
+      <transition
+        :enter-from-class="$style['v-enter-from']"
+        :enter-active-class="$style['v-enter-active']"
+        :enter-to-class="$style['v-enter-to']"
+        :leave-from-class="$style['v-leave-from']"
+        :leave-active-class="$style['v-leave-active']"
+        :leave-to-class="$style['v-leave-to']"
+      >
         <ElmDotLoadingIcon v-if="loading" size="1rem" />
       </transition>
 
