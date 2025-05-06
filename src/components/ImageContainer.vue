@@ -57,7 +57,7 @@ defineProps<{
 
 .v-enter-active,
 .v-leave-active {
-  transition: opacity 300ms;
+  transition: opacity 200ms;
 }
 
 .v-enter-from,
