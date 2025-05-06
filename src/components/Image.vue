@@ -59,7 +59,7 @@ const downloadFile = async ({
 
 <style scoped lang="scss">
 .container {
-  width: 16rem;
+  width: 12rem;
   padding: 0;
   margin: 0;
   border-radius: 0.25rem;
@@ -79,18 +79,20 @@ const downloadFile = async ({
 }
 
 .image-container {
+  height: 8rem;
   background-color: rgba(gray, 0.05);
   box-sizing: border-box;
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow: hidden;
 }
 
 .image {
   display: block;
-  max-height: 12rem;
   user-select: none;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
 }
 
 .control {
