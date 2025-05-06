@@ -4,7 +4,7 @@
       v-for="format in formats"
       :key="format"
       block
-      :disabled="loading"
+      :disabled="loading || files.length === 0"
       @click="handleConvert(format)"
     >
       <ElmMdiIcon :d="mdiImageSync" color="gray" size="1.25rem" />
@@ -51,6 +51,8 @@ const replaceExtension = (path: string, newExt: string): string => {
 };
 
 const handleConvert = async (format: ImageFormat) => {
+  if (files.value.length === 0) return;
+
   loading.value = true;
   convertedFiles.value = [];
 
