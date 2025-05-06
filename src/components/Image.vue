@@ -42,7 +42,7 @@
         :d="mdiTrashCanOutline"
         size="1.25rem"
         color="#c56565"
-        @click="emit('delete', filename)"
+        @click="emitDelete"
       />
     </div>
   </div>
@@ -52,7 +52,7 @@
 import { mdiImage, mdiDownload, mdiTrashCanOutline } from "@mdi/js";
 import { ElmDotLoadingIcon, ElmInlineText, ElmMdiIcon } from "@elmethis/core";
 
-withDefaults(
+const props = withDefaults(
   defineProps<{
     src: string;
     filename: string;
@@ -66,6 +66,10 @@ withDefaults(
 const emit = defineEmits<{
   (e: "delete", filename: string): void;
 }>();
+
+const emitDelete = () => {
+  if (!props.loading) emit("delete", props.filename);
+};
 
 const downloadFile = async ({
   url,
