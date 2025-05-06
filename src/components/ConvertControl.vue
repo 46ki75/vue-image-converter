@@ -37,6 +37,7 @@ import {
 import { mdiImageSync } from "@mdi/js";
 
 import * as Comlink from "comlink";
+import { nextTick } from "vue";
 
 const worker = new Worker(new URL("../worker.ts", import.meta.url), {
   type: "module",
@@ -87,6 +88,7 @@ const handleConvert = async (format: ImageFormat) => {
           const blob = new Blob([uint8array], { type: "image/bmp" });
           const newFileName = replaceExtension(file.name, "bmp");
           const result = new File([blob], newFileName, { type: "image/bmp" });
+          await nextTick();
           convertedFiles.value.push(result);
         }
         break;
@@ -100,6 +102,7 @@ const handleConvert = async (format: ImageFormat) => {
           const blob = new Blob([uint8array], { type: "image/jpeg" });
           const newFileName = replaceExtension(file.name, "jpg");
           const result = new File([blob], newFileName, { type: "image/jpeg" });
+          await nextTick();
           convertedFiles.value.push(result);
         }
         break;
@@ -113,6 +116,7 @@ const handleConvert = async (format: ImageFormat) => {
           const blob = new Blob([uint8array], { type: "image/png" });
           const newFileName = replaceExtension(file.name, "png");
           const result = new File([blob], newFileName, { type: "image/png" });
+          await nextTick();
           convertedFiles.value.push(result);
         }
         break;
@@ -126,6 +130,7 @@ const handleConvert = async (format: ImageFormat) => {
           const blob = new Blob([uint8array], { type: "image/webp" });
           const newFileName = replaceExtension(file.name, "webp");
           const result = new File([blob], newFileName, { type: "image/webp" });
+          await nextTick();
           convertedFiles.value.push(result);
         }
         break;
