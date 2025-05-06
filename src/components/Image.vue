@@ -17,7 +17,7 @@
       </transition>
 
       <ElmMdiIcon
-        :class="$style['icon-enable']"
+        :class="[$style['icon-base'], $style['icon-enable']]"
         :d="mdiDownload"
         size="1.25rem"
         color="#6987b8"
