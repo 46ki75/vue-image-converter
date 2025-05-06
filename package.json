@@ -37,13 +37,13 @@
     "vite": "^6.3.5",
     "vite-plugin-css-injected-by-js": "^3.5.2",
     "vite-plugin-dts": "^4.5.3",
-    "vue-tsc": "^2.2.8"
+    "vue-tsc": "^2.2.8",
+    "comlink": "^4.4.2",
+    "web-image-converter": "^0.1.0"
   },
   "dependencies": {
     "@elmethis/core": "^0.1.0",
     "@mdi/js": "^7.4.47",
-    "@vueuse/core": "^13.1.0",
-    "comlink": "^4.4.2",
-    "web-image-converter": "^0.1.0"
+    "@vueuse/core": "^13.1.0"
   }
 }

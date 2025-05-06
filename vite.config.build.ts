@@ -25,14 +25,7 @@ export default defineConfig({
       formats: ["es"],
     },
     rollupOptions: {
-      external: [
-        "vue",
-        "@elmethis/core",
-        "@mdi/js",
-        "@vueuse/core",
-        "comlink",
-        "web-image-converter",
-      ],
+      external: ["vue", "@elmethis/core", "@mdi/js", "@vueuse/core"],
       output: {
         preserveModules: true,
         preserveModulesRoot: "src",
