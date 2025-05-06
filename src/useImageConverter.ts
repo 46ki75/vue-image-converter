@@ -11,10 +11,10 @@ export const useImageConverter = ({
   webp,
 }: {
   init(): Promise<void>;
-  png(bytes: Uint8Array): Promise<Uint8Array>;
-  jpeg(bytes: Uint8Array): Promise<Uint8Array>;
-  bmp(bytes: Uint8Array): Promise<Uint8Array>;
-  webp(bytes: Uint8Array): Promise<Uint8Array>;
+  png({ bytes }: { bytes: Uint8Array }): Promise<Uint8Array>;
+  jpeg({ bytes }: { bytes: Uint8Array }): Promise<Uint8Array>;
+  bmp({ bytes }: { bytes: Uint8Array }): Promise<Uint8Array>;
+  webp({ bytes }: { bytes: Uint8Array }): Promise<Uint8Array>;
 }) => {
   const status = ref<Status>("IDLE");
   const loading = ref<boolean>(false);
@@ -76,7 +76,7 @@ export const useImageConverter = ({
     await init();
     const buffer = await file.arrayBuffer();
     const bytes = new Uint8Array(buffer);
-    const uint8array = await bmp(bytes);
+    const uint8array = await bmp({ bytes });
     const blob = new Blob([uint8array], { type: "image/bmp" });
     const newFileName = replaceExtension(file.name, "bmp");
     const result = new File([blob], newFileName, { type: "image/bmp" });
@@ -87,7 +87,7 @@ export const useImageConverter = ({
     await init();
     const buffer = await file.arrayBuffer();
     const bytes = new Uint8Array(buffer);
-    const uint8array = await jpeg(bytes);
+    const uint8array = await jpeg({ bytes });
     const blob = new Blob([uint8array], { type: "image/jpeg" });
     const newFileName = replaceExtension(file.name, "jpg");
     const result = new File([blob], newFileName, { type: "image/jpeg" });
@@ -98,7 +98,7 @@ export const useImageConverter = ({
     await init();
     const buffer = await file.arrayBuffer();
     const bytes = new Uint8Array(buffer);
-    const uint8array = await png(bytes);
+    const uint8array = await png({ bytes });
     const blob = new Blob([uint8array], { type: "image/png" });
     const newFileName = replaceExtension(file.name, "png");
     const result = new File([blob], newFileName, { type: "image/png" });
@@ -109,7 +109,7 @@ export const useImageConverter = ({
     await init();
     const buffer = await file.arrayBuffer();
     const bytes = new Uint8Array(buffer);
-    const uint8array = await webp(bytes);
+    const uint8array = await webp({ bytes });
     const blob = new Blob([uint8array], { type: "image/webp" });
     const newFileName = replaceExtension(file.name, "webp");
     const result = new File([blob], newFileName, { type: "image/webp" });
