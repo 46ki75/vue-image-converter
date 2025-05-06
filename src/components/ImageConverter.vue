@@ -1,5 +1,5 @@
 <template>
-  <div style="width: 100%">
+  <div :class="$style.wrapper">
     <ElmToggleTheme />
 
     <ImageSelect v-model="files" />
@@ -13,7 +13,11 @@
       />
     </ImageContainer>
 
+    <ElmArrowIcon :loading="loading" direction="down" />
+
     <Convert :loading="loading" />
+
+    <ElmArrowIcon :loading="loading" direction="down" />
 
     <ElmButton block @click="toggle">Toggle</ElmButton>
     <ElmButton block @click="deleteAll">Delete All</ElmButton>
@@ -21,7 +25,7 @@
 </template>
 
 <script setup lang="ts">
-import { ElmToggleTheme, ElmButton } from "@elmethis/core";
+import { ElmToggleTheme, ElmButton, ElmArrowIcon } from "@elmethis/core";
 import Convert from "./ConvertControl.vue";
 import ImageContainer from "./ImageContainer.vue";
 import File from "./FileToImage.vue";
@@ -44,3 +48,14 @@ const toggle = () => {
   loading.value = !loading.value;
 };
 </script>
+
+<style module lang="scss">
+.wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+}
+</style>

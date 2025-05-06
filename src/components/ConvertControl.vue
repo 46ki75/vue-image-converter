@@ -1,5 +1,4 @@
 <template>
-  <ElmArrowIcon :loading="loading" />
   <div :class="$style.container">
     <ElmButton
       v-for="variant in variants"
@@ -15,12 +14,7 @@
 </template>
 
 <script setup lang="ts">
-import {
-  ElmArrowIcon,
-  ElmButton,
-  ElmInlineText,
-  ElmMdiIcon,
-} from "@elmethis/core";
+import { ElmButton, ElmInlineText, ElmMdiIcon } from "@elmethis/core";
 import { mdiImageSync } from "@mdi/js";
 
 const variants: Array<"BMP" | "JPEG" | "PNG" | "WEBP"> = [
