@@ -10,7 +10,7 @@
 
 <script setup lang="ts">
 import ImageConverter from "./components/Application.vue";
-import { imageConverterFunctionMap } from "./util";
+import { imageConverterFunctionMap } from "./examples/imageConverterFunctionMap";
 </script>
 
 <style module lang="scss">
