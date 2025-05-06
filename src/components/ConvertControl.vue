@@ -15,13 +15,13 @@
 
     <div>
       <ElmInlineText
-        :text="`Converted ${convertedFiles.length} / ${selectedFiles.length}`"
+        :text="`Converted ${progress} / ${selectedFiles.length}`"
       />
     </div>
 
     <ElmProgress
-      :value="convertedFiles.length"
-      :max="convertedFiles.length === 0 ? 1 : selectedFiles.length"
+      :value="progress"
+      :max="progress === 0 ? 1 : selectedFiles.length"
       :color="loading ? '#6987b8' : '#59b57c'"
     />
   </div>
@@ -37,7 +37,7 @@ import {
 import { mdiImageSync } from "@mdi/js";
 
 import * as Comlink from "comlink";
-import { nextTick } from "vue";
+import { nextTick, ref } from "vue";
 
 const worker = new Worker(new URL("../worker.ts", import.meta.url), {
   type: "module",
@@ -56,6 +56,8 @@ type ImageFormat = "BMP" | "JPEG" | "PNG" | "WEBP";
 const formats: ImageFormat[] = ["BMP", "JPEG", "PNG", "WEBP"] as const;
 
 const loading = defineModel<boolean>("loading", { default: false });
+
+const progress = ref<number>(0);
 
 const selectedFiles = defineModel<File[]>("selected-files", { default: [] });
 
@@ -77,6 +79,7 @@ const toBmp = async (file: File): Promise<File> => {
   const blob = new Blob([uint8array], { type: "image/bmp" });
   const newFileName = replaceExtension(file.name, "bmp");
   const result = new File([blob], newFileName, { type: "image/bmp" });
+  progress.value = progress.value + 1;
   return result;
 };
 
@@ -87,6 +90,7 @@ const toJpeg = async (file: File): Promise<File> => {
   const blob = new Blob([uint8array], { type: "image/jpeg" });
   const newFileName = replaceExtension(file.name, "jpg");
   const result = new File([blob], newFileName, { type: "image/jpeg" });
+  progress.value = progress.value + 1;
   return result;
 };
 
@@ -97,6 +101,7 @@ const toPng = async (file: File): Promise<File> => {
   const blob = new Blob([uint8array], { type: "image/png" });
   const newFileName = replaceExtension(file.name, "png");
   const result = new File([blob], newFileName, { type: "image/png" });
+  progress.value = progress.value + 1;
   return result;
 };
 
@@ -107,6 +112,7 @@ const toWebp = async (file: File): Promise<File> => {
   const blob = new Blob([uint8array], { type: "image/webp" });
   const newFileName = replaceExtension(file.name, "webp");
   const result = new File([blob], newFileName, { type: "image/webp" });
+  progress.value = progress.value + 1;
   return result;
 };
 
@@ -114,6 +120,7 @@ const handleConvert = async (format: ImageFormat) => {
   if (selectedFiles.value.length === 0) return;
 
   loading.value = true;
+  progress.value = 0;
   convertedFiles.value = [];
 
   try {
@@ -121,38 +128,42 @@ const handleConvert = async (format: ImageFormat) => {
 
     switch (format) {
       case "BMP": {
-        for (const file of selectedFiles.value) {
-          const result = await toBmp(file);
-          await nextTick();
-          convertedFiles.value.push(result);
-        }
+        const promises = Promise.all(
+          selectedFiles.value.map((file) => toBmp(file))
+        );
+        const results = await promises;
+        await nextTick();
+        convertedFiles.value = results;
         break;
       }
 
       case "JPEG": {
-        for (const file of selectedFiles.value) {
-          const result = await toJpeg(file);
-          await nextTick();
-          convertedFiles.value.push(result);
-        }
+        const promises = Promise.all(
+          selectedFiles.value.map((file) => toJpeg(file))
+        );
+        const results = await promises;
+        await nextTick();
+        convertedFiles.value = results;
         break;
       }
 
       case "PNG": {
-        for (const file of selectedFiles.value) {
-          const result = await toPng(file);
-          await nextTick();
-          convertedFiles.value.push(result);
-        }
+        const promises = Promise.all(
+          selectedFiles.value.map((file) => toPng(file))
+        );
+        const results = await promises;
+        await nextTick();
+        convertedFiles.value = results;
         break;
       }
 
       case "WEBP": {
-        for (const file of selectedFiles.value) {
-          const result = await toWebp(file);
-          await nextTick();
-          convertedFiles.value.push(result);
-        }
+        const promises = Promise.all(
+          selectedFiles.value.map((file) => toWebp(file))
+        );
+        const results = await promises;
+        await nextTick();
+        convertedFiles.value = results;
         break;
       }
     }
