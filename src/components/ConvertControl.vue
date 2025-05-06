@@ -37,9 +37,9 @@ const formats: ImageFormat[] = ["BMP", "JPEG", "PNG", "WEBP"] as const;
 
 const loading = defineModel<boolean>("loading", { default: false });
 
-const files = defineModel<File[]>("files", { default: [] });
+const files = defineModel<File[]>("selected-files", { default: [] });
 
-const convertedFiles = defineModel<File[]>("convertedFiles", { default: [] });
+const convertedFiles = defineModel<File[]>("converted-files", { default: [] });
 
 const replaceExtension = (path: string, newExt: string): string => {
   const ext = newExt.startsWith(".") ? newExt : "." + newExt;
