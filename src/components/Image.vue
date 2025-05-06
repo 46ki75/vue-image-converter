@@ -27,6 +27,7 @@
         :d="mdiTrashCanOutline"
         size="1.25rem"
         color="#c56565"
+        @click="handleDelete(filename)"
       />
     </div>
   </div>
@@ -37,7 +38,12 @@ import { mdiImage, mdiDownload, mdiTrashCanOutline } from "@mdi/js";
 import { ElmDotLoadingIcon, ElmInlineText, ElmMdiIcon } from "@elmethis/core";
 
 withDefaults(
-  defineProps<{ src: string; filename: string; loading: boolean }>(),
+  defineProps<{
+    src: string;
+    filename: string;
+    loading: boolean;
+    handleDelete: (filename: string) => void;
+  }>(),
   {
     loading: false,
   }

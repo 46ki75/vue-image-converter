@@ -4,12 +4,18 @@
   <ImageSelect v-model="files" />
 
   <ImageContainer>
-    <File v-for="file in files" :file="file" :loading="loading" />
+    <File
+      v-for="file in files"
+      :file="file"
+      :loading="loading"
+      :handleDelete="handleDelete"
+    />
   </ImageContainer>
 
   <Convert :loading="loading" />
 
-  <ElmButton @click="toggle">Toggle</ElmButton>
+  <ElmButton block @click="toggle">Toggle</ElmButton>
+  <ElmButton block @click="deleteAll">Delete All</ElmButton>
 </template>
 
 <script setup lang="ts">
@@ -23,6 +29,14 @@ import ImageSelect from "./components/ImageSelect.vue";
 const loading = ref(false);
 
 const files = ref<File[]>([]);
+
+const handleDelete = (filename: string) => {
+  files.value.filter((file) => file.name === filename);
+};
+
+const deleteAll = () => {
+  files.value = [];
+};
 
 const toggle = () => {
   loading.value = !loading.value;
