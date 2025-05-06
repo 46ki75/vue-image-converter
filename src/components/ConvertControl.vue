@@ -13,11 +13,34 @@
       </ElmButton>
     </div>
 
-    <div>
-      <ElmInlineText
-        :text="`Converted ${progress} / ${selectedFiles.length}`"
-      />
-    </div>
+    <transition
+      mode="out-in"
+      :class="$style.container"
+      :enter-from-class="transitionStyle['v-enter-from']"
+      :enter-active-class="transitionStyle['v-enter-active']"
+      :enter-to-class="transitionStyle['v-enter-to']"
+      :leave-from-class="transitionStyle['v-leave-from']"
+      :leave-active-class="transitionStyle['v-leave-active']"
+      :leave-to-class="transitionStyle['v-leave-to']"
+    >
+      <div v-if="status === 'IDLE'">
+        <ElmInlineText text="Select images" />
+      </div>
+
+      <div v-else-if="status === 'INIT_WASM'">
+        <ElmInlineText text="Initializing WebAssembly..." />
+      </div>
+
+      <div v-else-if="status === 'CONVERTING'">
+        <ElmInlineText
+          :text="`Converting ${progress} of ${selectedFiles.length} images...`"
+        />
+      </div>
+
+      <div v-else-if="status === 'COMPLETE'">
+        <ElmInlineText text="Conversion complete!" />
+      </div>
+    </transition>
 
     <ElmProgress
       :value="progress"
@@ -39,6 +62,8 @@ import { mdiImageSync } from "@mdi/js";
 import * as Comlink from "comlink";
 import { nextTick, ref } from "vue";
 
+import transitionStyle from "../transition.module.scss";
+
 const worker = new Worker(new URL("../worker.ts", import.meta.url), {
   type: "module",
 });
@@ -52,12 +77,14 @@ const api = Comlink.wrap<{
 }>(worker);
 
 type ImageFormat = "BMP" | "JPEG" | "PNG" | "WEBP";
-
 const formats: ImageFormat[] = ["BMP", "JPEG", "PNG", "WEBP"] as const;
 
 const loading = defineModel<boolean>("loading", { default: false });
 
 const progress = ref<number>(0);
+
+type Status = "IDLE" | "INIT_WASM" | "CONVERTING" | "COMPLETE";
+const status = ref<Status>("IDLE");
 
 const selectedFiles = defineModel<File[]>("selected-files", { default: [] });
 
@@ -124,7 +151,10 @@ const handleConvert = async (format: ImageFormat) => {
   convertedFiles.value = [];
 
   try {
+    status.value = "INIT_WASM";
     await api.init();
+
+    status.value = "CONVERTING";
 
     switch (format) {
       case "BMP": {
@@ -172,6 +202,7 @@ const handleConvert = async (format: ImageFormat) => {
     console.error(e);
   } finally {
     loading.value = false;
+    status.value = "COMPLETE";
   }
 };
 </script>
