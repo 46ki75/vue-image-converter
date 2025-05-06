@@ -1,4 +1,4 @@
-import { nextTick, ref } from "vue";
+import { nextTick, ref, watch } from "vue";
 import type { ImageFormat } from "./type";
 import { api, convertImageWithWebWorker } from "./util";
 
@@ -64,6 +64,13 @@ export const useImageConverter = () => {
       status.value = "COMPLETE";
     }
   };
+
+  watch(
+    () => inputImages.value.length,
+    () => {
+      progress.value = 0;
+    }
+  );
 
   return {
     status,
