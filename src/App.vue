@@ -16,7 +16,7 @@
 import { ElmToggleTheme, ElmButton } from "@elmethis/core";
 import Convert from "./components/Convert.vue";
 import ImageContainer from "./components/ImageContainer.vue";
-import File from "./components/File.vue";
+import File from "./components/FileToImage.vue";
 import { ref } from "vue";
 import ImageSelect from "./components/ImageSelect.vue";
 
