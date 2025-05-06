@@ -11,23 +11,6 @@ import ImageConverter from "./components/Application.vue";
 import { api } from "./util";
 </script>
 
-<style lang="scss">
-html {
-  margin: 0;
-  padding: 0;
-  font-family: sans-serif;
-}
-
-body {
-  transition: background-color 200ms;
-  background-color: #f2f2f2;
-
-  [data-theme="dark"] & {
-    background-color: #262626;
-  }
-}
-</style>
-
 <style module lang="scss">
 .wrapper {
   width: 100%;
