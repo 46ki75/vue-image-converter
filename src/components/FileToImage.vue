@@ -1,6 +1,5 @@
 <template>
   <Image
-    v-if="url"
     :src="url"
     :filename="file.name"
     :loading="loading"

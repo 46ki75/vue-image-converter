@@ -13,6 +13,7 @@
     </div>
     <div :class="$style['image-container']">
       <img
+        v-if="src"
         :class="$style.image"
         :src="src"
         :alt="`${filename} (user contents)`"
@@ -24,7 +25,11 @@
         :d="mdiDownload"
         size="1.25rem"
         color="#6987b8"
-        @click="() => downloadFile({ url: src, filename })"
+        @click="
+          () => {
+            if (src) downloadFile({ url: src, filename });
+          }
+        "
       />
 
       <ElmMdiIcon
@@ -50,7 +55,7 @@ import { ElmInlineText, ElmMdiIcon } from "@elmethis/core";
 
 const props = withDefaults(
   defineProps<{
-    src: string;
+    src?: string;
     filename: string;
     loading: boolean;
   }>(),
