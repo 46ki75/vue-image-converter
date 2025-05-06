@@ -10,9 +10,14 @@ export default defineConfig({
   plugins: [
     vue(),
     dts({ tsconfigPath: "./tsconfig.app.json" }),
-    cssInjectedByJsPlugin(),
+    cssInjectedByJsPlugin({
+      relativeCSSInjection: true,
+    }),
   ],
   build: {
+    cssCodeSplit: true,
+    cssMinify: true,
+    minify: false,
     lib: {
       entry: resolve(__dirname, "src/lib.ts"),
       name: "vue-image-converter",

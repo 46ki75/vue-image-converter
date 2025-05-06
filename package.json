@@ -1,8 +1,24 @@
 {
-  "name": "vite-project",
-  "private": true,
-  "version": "0.0.0",
+  "name": "vue-image-converter",
+  "version": "0.1.0",
   "type": "module",
+  "author": "Chomolungma Shirayuki",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:46ki75/vue-image-converter.git"
+  },
+  "homepage": "https://46ki75.github.io/vue-image-converter",
+  "files": [
+    "dist"
+  ],
+  "types": "./dist/lib.d.ts",
+  "module": "./dist/lib.mjs",
+  "exports": {
+    ".": {
+      "types": "./dist/lib.d.ts",
+      "default": "./dist/lib.mjs"
+    }
+  },
   "scripts": {
     "dev": "vite --config ./vite.config.dev.ts",
     "build": "vue-tsc -b && vite build --config ./vite.config.build.ts",
