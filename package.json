@@ -22,6 +22,7 @@
   "dependencies": {
     "@elmethis/core": "1.0.0-alpha.195",
     "@mdi/js": "^7.4.47",
+    "@vueuse/core": "^13.1.0",
     "comlink": "^4.4.2",
     "web-image-converter": "^0.1.0"
   }

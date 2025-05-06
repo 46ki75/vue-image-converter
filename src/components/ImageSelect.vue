@@ -20,7 +20,7 @@
         <ElmInlineText text="Select File" />
       </ElmButton>
 
-      <ElmButton block :disabled="loading" @click="() => (inputImages = [])">
+      <ElmButton block :disabled="loading" @click="resetInputImages">
         <ElmMdiIcon :d="mdiImageOff" color="#c56565" size="1.25rem" />
         <ElmInlineText color="#c56565" text="Clear All" />
       </ElmButton>
@@ -37,6 +37,7 @@ import type { useImageConverter } from "../useImageConverter";
 const props = defineProps<{
   loading: boolean;
   inputImages: File[];
+  resetInputImages: ReturnType<typeof useImageConverter>["resetInputImages"];
   handleImageSelect: ReturnType<typeof useImageConverter>["handleImageSelect"];
 }>();
 

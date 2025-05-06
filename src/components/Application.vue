@@ -1,5 +1,5 @@
 <template>
-  <div :class="$style.wrapper">
+  <div :class="$style.wrapper" ref="dropZoneRef">
     <ElmToggleTheme />
 
     <transition
@@ -30,6 +30,7 @@
       :inputImages="inputImages"
       :loading="loading"
       :handleImageSelect="handleImageSelect"
+      :resetInputImages="resetInputImages"
     />
 
     <ElmArrowIcon :loading="loading" direction="down" />
@@ -78,6 +79,9 @@ import ImageSelect from "./ImageSelect.vue";
 import transitionStyle from "../transition.module.scss";
 import { useImageConverter } from "../useImageConverter";
 
+import { ref } from "vue";
+import { useDropZone } from "@vueuse/core";
+
 const {
   loading,
   inputImages,
@@ -85,10 +89,24 @@ const {
   status,
   progress,
   handleImageSelect,
+  resetInputImages,
   removeInputImage,
   removeOupputImage,
   convert,
 } = useImageConverter();
+
+const dropZoneRef = ref<HTMLDivElement>();
+
+function onDrop(files: File[] | null) {
+  if (files) handleImageSelect(files);
+}
+
+useDropZone(dropZoneRef, {
+  onDrop,
+  dataTypes: ["image/jpeg", "image/webp", "image/bmp", "image/png"],
+  multiple: true,
+  preventDefaultForUnhandled: false,
+});
 </script>
 
 <style module lang="scss">
