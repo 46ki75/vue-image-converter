@@ -2,11 +2,11 @@
   <div :class="$style.container">
     <div :class="$style['button-container']">
       <ElmButton
-        v-for="format in formats"
+        v-for="format in IMAGE_FORMATS"
         :key="format"
         block
-        :disabled="loading || selectedFiles.length === 0"
-        @click="handleConvert(format)"
+        :disabled="loading || inputImages.length === 0"
+        @click="convert(format as ImageFormat)"
       >
         <ElmMdiIcon :d="mdiImageSync" color="gray" size="1.25rem" />
         <ElmInlineText :text="format" />
@@ -33,7 +33,7 @@
 
       <div v-else-if="status === 'CONVERTING'">
         <ElmInlineText
-          :text="`Converting ${progress} of ${selectedFiles.length} images...`"
+          :text="`Converting ${progress} of ${inputImages.length} images...`"
         />
       </div>
 
@@ -44,7 +44,7 @@
 
     <ElmProgress
       :value="progress"
-      :max="progress === 0 ? 1 : selectedFiles.length"
+      :max="progress === 0 ? 1 : inputImages.length"
       :color="loading ? '#6987b8' : '#59b57c'"
     />
   </div>
@@ -59,152 +59,18 @@ import {
 } from "@elmethis/core";
 import { mdiImageSync } from "@mdi/js";
 
-import * as Comlink from "comlink";
-import { nextTick, ref } from "vue";
-
 import transitionStyle from "../transition.module.scss";
+import { type ImageFormat, IMAGE_FORMATS } from "../type";
+import type { Status } from "../useImageConverter";
 
-const worker = new Worker(new URL("../worker.ts", import.meta.url), {
-  type: "module",
-});
-
-const api = Comlink.wrap<{
-  init(): Promise<void>;
-  png(bytes: Uint8Array): Promise<Uint8Array>;
-  jpeg(bytes: Uint8Array): Promise<Uint8Array>;
-  bmp(bytes: Uint8Array): Promise<Uint8Array>;
-  webp(bytes: Uint8Array): Promise<Uint8Array>;
-}>(worker);
-
-type ImageFormat = "BMP" | "JPEG" | "PNG" | "WEBP";
-const formats: ImageFormat[] = ["BMP", "JPEG", "PNG", "WEBP"] as const;
-
-const loading = defineModel<boolean>("loading", { default: false });
-
-const progress = ref<number>(0);
-
-type Status = "IDLE" | "INIT_WASM" | "CONVERTING" | "COMPLETE";
-const status = ref<Status>("IDLE");
-
-const selectedFiles = defineModel<File[]>("selected-files", { default: [] });
-
-const convertedFiles = defineModel<File[]>("converted-files", { default: [] });
-
-const replaceExtension = (path: string, newExt: string): string => {
-  const ext = newExt.startsWith(".") ? newExt : "." + newExt;
-  const index = path.lastIndexOf(".");
-  if (index === -1 || path.slice(index).includes("/")) {
-    return path + ext;
-  }
-  return path.slice(0, index) + ext;
-};
-
-const toBmp = async (file: File): Promise<File> => {
-  const buffer = await file.arrayBuffer();
-  const bytes = new Uint8Array(buffer);
-  const uint8array = await api.bmp(bytes);
-  const blob = new Blob([uint8array], { type: "image/bmp" });
-  const newFileName = replaceExtension(file.name, "bmp");
-  const result = new File([blob], newFileName, { type: "image/bmp" });
-  progress.value = progress.value + 1;
-  return result;
-};
-
-const toJpeg = async (file: File): Promise<File> => {
-  const buffer = await file.arrayBuffer();
-  const bytes = new Uint8Array(buffer);
-  const uint8array = await api.jpeg(bytes);
-  const blob = new Blob([uint8array], { type: "image/jpeg" });
-  const newFileName = replaceExtension(file.name, "jpg");
-  const result = new File([blob], newFileName, { type: "image/jpeg" });
-  progress.value = progress.value + 1;
-  return result;
-};
-
-const toPng = async (file: File): Promise<File> => {
-  const buffer = await file.arrayBuffer();
-  const bytes = new Uint8Array(buffer);
-  const uint8array = await api.png(bytes);
-  const blob = new Blob([uint8array], { type: "image/png" });
-  const newFileName = replaceExtension(file.name, "png");
-  const result = new File([blob], newFileName, { type: "image/png" });
-  progress.value = progress.value + 1;
-  return result;
-};
-
-const toWebp = async (file: File): Promise<File> => {
-  const buffer = await file.arrayBuffer();
-  const bytes = new Uint8Array(buffer);
-  const uint8array = await api.webp(bytes);
-  const blob = new Blob([uint8array], { type: "image/webp" });
-  const newFileName = replaceExtension(file.name, "webp");
-  const result = new File([blob], newFileName, { type: "image/webp" });
-  progress.value = progress.value + 1;
-  return result;
-};
-
-const handleConvert = async (format: ImageFormat) => {
-  if (selectedFiles.value.length === 0) return;
-
-  loading.value = true;
-  progress.value = 0;
-  convertedFiles.value = [];
-
-  try {
-    status.value = "INIT_WASM";
-    await api.init();
-
-    status.value = "CONVERTING";
-
-    switch (format) {
-      case "BMP": {
-        const promises = Promise.all(
-          selectedFiles.value.map((file) => toBmp(file))
-        );
-        const results = await promises;
-        await nextTick();
-        convertedFiles.value = results;
-        break;
-      }
-
-      case "JPEG": {
-        const promises = Promise.all(
-          selectedFiles.value.map((file) => toJpeg(file))
-        );
-        const results = await promises;
-        await nextTick();
-        convertedFiles.value = results;
-        break;
-      }
-
-      case "PNG": {
-        const promises = Promise.all(
-          selectedFiles.value.map((file) => toPng(file))
-        );
-        const results = await promises;
-        await nextTick();
-        convertedFiles.value = results;
-        break;
-      }
-
-      case "WEBP": {
-        const promises = Promise.all(
-          selectedFiles.value.map((file) => toWebp(file))
-        );
-        const results = await promises;
-        await nextTick();
-        convertedFiles.value = results;
-        break;
-      }
-    }
-  } catch (e) {
-    // TODO:
-    console.error(e);
-  } finally {
-    loading.value = false;
-    status.value = "COMPLETE";
-  }
-};
+defineProps<{
+  status: Status;
+  loading: boolean;
+  progress: number;
+  inputImages: File[];
+  outputImages: File[];
+  convert: (format: ImageFormat) => Promise<void>;
+}>();
 </script>
 
 <style module lang="scss">

@@ -13,27 +13,30 @@
       :leave-to-class="transitionStyle['v-leave-to']"
     >
       <ImageContainer
-        :empty="selectedFiles.length === 0"
+        :empty="inputImages.length === 0"
         :text="'No Image Selected'"
       >
         <File
-          v-for="file in selectedFiles"
+          v-for="file in inputImages"
           :key="file.name"
           :file="file"
           :loading="loading"
-          @delete="handleSelectedFilesDelete"
+          @delete="resetInputImages"
         />
       </ImageContainer>
     </transition>
 
-    <ImageSelect v-model="selectedFiles" />
+    <ImageSelect v-model="inputImages" />
 
     <ElmArrowIcon :loading="loading" direction="down" />
 
     <Convert
-      v-model:loading="loading"
-      v-model:selected-files="selectedFiles"
-      v-model:converted-files="convertedFiles"
+      :status="status"
+      :loading="loading"
+      :progress="progress"
+      :inputImages="inputImages"
+      :outputImages="outputImages"
+      :convert="convert"
     />
 
     <ElmArrowIcon :loading="loading" direction="down" />
@@ -48,13 +51,13 @@
       :leave-active-class="transitionStyle['v-leave-active']"
       :leave-to-class="transitionStyle['v-leave-to']"
     >
-      <ImageContainer :empty="convertedFiles.length === 0" :text="'No Results'">
+      <ImageContainer :empty="outputImages.length === 0" :text="'No Results'">
         <File
-          v-for="file in convertedFiles"
+          v-for="file in outputImages"
           :key="file.name"
           :file="file"
           :loading="loading"
-          @delete="handleConvertedFilesDelete"
+          @delete="resetOupputImages"
         />
       </ImageContainer>
     </transition>
@@ -68,32 +71,25 @@ import { ElmToggleTheme, ElmButton, ElmArrowIcon } from "@elmethis/core";
 import Convert from "./ConvertControl.vue";
 import ImageContainer from "./ImageContainer.vue";
 import File from "./FileToImage.vue";
-import { ref } from "vue";
 import ImageSelect from "./ImageSelect.vue";
 
 import transitionStyle from "../transition.module.scss";
+import { useImageConverter } from "../useImageConverter";
 
-const loading = ref(false);
-
-const selectedFiles = ref<File[]>([]);
-
-const convertedFiles = ref<File[]>([]);
-
-const handleSelectedFilesDelete = (filename: string) => {
-  selectedFiles.value = selectedFiles.value.filter(
-    (file) => file.name !== filename
-  );
-};
-
-const handleConvertedFilesDelete = (filename: string) => {
-  convertedFiles.value = convertedFiles.value.filter(
-    (file) => file.name !== filename
-  );
-};
+const {
+  loading,
+  inputImages,
+  outputImages,
+  status,
+  progress,
+  resetInputImages,
+  resetOupputImages,
+  convert,
+} = useImageConverter();
 
 const deleteAll = () => {
-  selectedFiles.value = [];
-  convertedFiles.value = [];
+  resetInputImages();
+  resetOupputImages();
 };
 </script>
 
