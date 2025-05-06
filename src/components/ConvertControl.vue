@@ -63,6 +63,7 @@ import * as Comlink from "comlink";
 import { nextTick, ref } from "vue";
 
 import transitionStyle from "../transition.module.scss";
+import { convertImageWithWebWorker } from "../util";
 
 const worker = new Worker(new URL("../worker.ts", import.meta.url), {
   type: "module",
@@ -90,59 +91,6 @@ const selectedFiles = defineModel<File[]>("selected-files", { default: [] });
 
 const convertedFiles = defineModel<File[]>("converted-files", { default: [] });
 
-const replaceExtension = (path: string, newExt: string): string => {
-  const ext = newExt.startsWith(".") ? newExt : "." + newExt;
-  const index = path.lastIndexOf(".");
-  if (index === -1 || path.slice(index).includes("/")) {
-    return path + ext;
-  }
-  return path.slice(0, index) + ext;
-};
-
-const toBmp = async (file: File): Promise<File> => {
-  const buffer = await file.arrayBuffer();
-  const bytes = new Uint8Array(buffer);
-  const uint8array = await api.bmp(bytes);
-  const blob = new Blob([uint8array], { type: "image/bmp" });
-  const newFileName = replaceExtension(file.name, "bmp");
-  const result = new File([blob], newFileName, { type: "image/bmp" });
-  progress.value = progress.value + 1;
-  return result;
-};
-
-const toJpeg = async (file: File): Promise<File> => {
-  const buffer = await file.arrayBuffer();
-  const bytes = new Uint8Array(buffer);
-  const uint8array = await api.jpeg(bytes);
-  const blob = new Blob([uint8array], { type: "image/jpeg" });
-  const newFileName = replaceExtension(file.name, "jpg");
-  const result = new File([blob], newFileName, { type: "image/jpeg" });
-  progress.value = progress.value + 1;
-  return result;
-};
-
-const toPng = async (file: File): Promise<File> => {
-  const buffer = await file.arrayBuffer();
-  const bytes = new Uint8Array(buffer);
-  const uint8array = await api.png(bytes);
-  const blob = new Blob([uint8array], { type: "image/png" });
-  const newFileName = replaceExtension(file.name, "png");
-  const result = new File([blob], newFileName, { type: "image/png" });
-  progress.value = progress.value + 1;
-  return result;
-};
-
-const toWebp = async (file: File): Promise<File> => {
-  const buffer = await file.arrayBuffer();
-  const bytes = new Uint8Array(buffer);
-  const uint8array = await api.webp(bytes);
-  const blob = new Blob([uint8array], { type: "image/webp" });
-  const newFileName = replaceExtension(file.name, "webp");
-  const result = new File([blob], newFileName, { type: "image/webp" });
-  progress.value = progress.value + 1;
-  return result;
-};
-
 const handleConvert = async (format: ImageFormat) => {
   if (selectedFiles.value.length === 0) return;
 
@@ -156,47 +104,17 @@ const handleConvert = async (format: ImageFormat) => {
 
     status.value = "CONVERTING";
 
-    switch (format) {
-      case "BMP": {
-        const promises = Promise.all(
-          selectedFiles.value.map((file) => toBmp(file))
-        );
-        const results = await promises;
-        await nextTick();
-        convertedFiles.value = results;
-        break;
-      }
-
-      case "JPEG": {
-        const promises = Promise.all(
-          selectedFiles.value.map((file) => toJpeg(file))
-        );
-        const results = await promises;
-        await nextTick();
-        convertedFiles.value = results;
-        break;
-      }
-
-      case "PNG": {
-        const promises = Promise.all(
-          selectedFiles.value.map((file) => toPng(file))
-        );
-        const results = await promises;
-        await nextTick();
-        convertedFiles.value = results;
-        break;
-      }
-
-      case "WEBP": {
-        const promises = Promise.all(
-          selectedFiles.value.map((file) => toWebp(file))
-        );
-        const results = await promises;
-        await nextTick();
-        convertedFiles.value = results;
-        break;
-      }
-    }
+    const promises = Promise.all(
+      selectedFiles.value.map((file) =>
+        convertImageWithWebWorker({ file, format }).then((result) => {
+          progress.value = progress.value + 1;
+          return result;
+        })
+      )
+    );
+    const results = await promises;
+    await nextTick();
+    convertedFiles.value = results;
   } catch (e) {
     // TODO:
     console.error(e);
