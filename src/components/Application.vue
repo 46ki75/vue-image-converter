@@ -1,5 +1,18 @@
 <template>
   <div :class="$style.wrapper" ref="dropZoneRef">
+    <div
+      :class="$style.dropzone"
+      ref="dropZoneRef"
+      :style="{
+        opacity: isOverDropZone ? 1 : 0,
+      }"
+    >
+      <div :class="$style['dropzone-inner']">
+        <ElmMdiIcon :d="mdiTooltipImage" size="2rem" />
+        <ElmInlineText size="2rem" text="Drop files here to upload" />
+      </div>
+    </div>
+
     <ElmToggleTheme />
 
     <transition
@@ -70,7 +83,12 @@
 </template>
 
 <script setup lang="ts">
-import { ElmToggleTheme, ElmArrowIcon } from "@elmethis/core";
+import {
+  ElmToggleTheme,
+  ElmArrowIcon,
+  ElmInlineText,
+  ElmMdiIcon,
+} from "@elmethis/core";
 import Convert from "./ConvertControl.vue";
 import ImageContainer from "./ImageContainer.vue";
 import File from "./FileToImage.vue";
@@ -81,6 +99,7 @@ import { useImageConverter } from "../useImageConverter";
 
 import { ref } from "vue";
 import { useDropZone } from "@vueuse/core";
+import { mdiTooltipImage } from "@mdi/js";
 
 const {
   loading,
@@ -101,7 +120,7 @@ function onDrop(files: File[] | null) {
   if (files) handleImageSelect(files);
 }
 
-useDropZone(dropZoneRef, {
+const { isOverDropZone } = useDropZone(dropZoneRef, {
   onDrop,
   dataTypes: ["image/jpeg", "image/webp", "image/bmp", "image/png"],
   multiple: true,
@@ -111,11 +130,41 @@ useDropZone(dropZoneRef, {
 
 <style module lang="scss">
 .wrapper {
+  position: relative;
   width: 100%;
   display: flex;
   flex-direction: column;
   gap: 2rem;
   align-items: center;
   justify-content: center;
+}
+
+.dropzone {
+  position: fixed;
+  z-index: 5;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  pointer-events: none;
+  transition: opacity 200ms;
+
+  background-color: rgba(#aebed9, 0.9);
+  [data-theme="dark"] & {
+    background-color: rgba(#3c557f, 0.9);
+  }
+}
+
+.dropzone-inner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  opacity: 0.8;
 }
 </style>
