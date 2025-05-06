@@ -1,19 +1,10 @@
 <template>
   <ElmToggleTheme />
 
-  <ImageContainer>
-    <Image
-      v-for="_ in new Array(10)"
-      :loading="loading"
-      filename="untitled"
-      src="https://avatars.githubusercontent.com/u/85323087?s=400&u=2867edf10c412da0ac9ddff6ff0581e92e79e563&v=4"
-    />
+  <ImageSelect v-model="files" />
 
-    <Image
-      :loading="loading"
-      filename="untitled"
-      src="https://images.unsplash.com/photo-1556983703-27576e5afa24?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb"
-    />
+  <ImageContainer>
+    <File v-for="file in files" :file="file" :loading="loading" />
   </ImageContainer>
 
   <Convert :loading="loading" />
@@ -23,12 +14,15 @@
 
 <script setup lang="ts">
 import { ElmToggleTheme, ElmButton } from "@elmethis/core";
-import Image from "./components/Image.vue";
 import Convert from "./components/Convert.vue";
 import ImageContainer from "./components/ImageContainer.vue";
+import File from "./components/File.vue";
 import { ref } from "vue";
+import ImageSelect from "./components/ImageSelect.vue";
 
 const loading = ref(false);
+
+const files = ref<File[]>([]);
 
 const toggle = () => {
   loading.value = !loading.value;
