@@ -26,7 +26,11 @@
       </ImageContainer>
     </transition>
 
-    <ImageSelect v-model="inputImages" :loading="loading" />
+    <ImageSelect
+      :inputImages="inputImages"
+      :loading="loading"
+      :handleImageSelect="handleImageSelect"
+    />
 
     <ElmArrowIcon :loading="loading" direction="down" />
 
@@ -80,6 +84,7 @@ const {
   outputImages,
   status,
   progress,
+  handleImageSelect,
   removeInputImage,
   removeOupputImage,
   convert,
