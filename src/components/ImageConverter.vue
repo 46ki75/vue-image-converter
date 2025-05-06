@@ -2,9 +2,7 @@
   <div :class="$style.wrapper">
     <ElmToggleTheme />
 
-    <ImageSelect v-model="files" />
-
-    <ImageContainer>
+    <ImageContainer :empty="files.length === 0">
       <File
         v-for="file in files"
         :file="file"
@@ -12,6 +10,8 @@
         @delete="handleDelete"
       />
     </ImageContainer>
+
+    <ImageSelect v-model="files" />
 
     <ElmArrowIcon :loading="loading" direction="down" />
 

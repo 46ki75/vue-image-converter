@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :class="$style.wrapper">
     <input
       hidden
       type="file"
@@ -9,14 +9,14 @@
       @change="handleFileChange"
     />
 
+    <div v-if="error != null" :class="$style.error">
+      <ElmInlineText :text="error" color="#c56565" />
+    </div>
+
     <ElmButton block @click="() => fileInputRef?.click()">
       <ElmMdiIcon :d="mdiImagePlus" size="1.25rem" />
       <ElmInlineText text="Select File" />
     </ElmButton>
-
-    <div v-if="error != null" :class="$style.error">
-      <span>{{ error }}</span>
-    </div>
   </div>
 </template>
 
@@ -48,7 +48,17 @@ const handleFileChange = async () => {
 </script>
 
 <style module lang="scss">
+.wrapper {
+  width: 100%;
+}
+
 .error {
-  color: #c56565;
+  margin-block: 0.5rem;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
 }
 </style>
