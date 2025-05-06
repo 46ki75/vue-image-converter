@@ -14,7 +14,7 @@
       <ElmInlineText text="Select File" />
     </ElmButton>
 
-    <div v-if="error != null" class="error">
+    <div v-if="error != null" :class="$style.error">
       <span>{{ error }}</span>
     </div>
   </div>
@@ -46,7 +46,7 @@ const handleFileChange = async () => {
 };
 </script>
 
-<style scoped lang="scss">
+<style module lang="scss">
 .error {
   color: #c56565;
 }

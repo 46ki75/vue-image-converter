@@ -1,10 +1,10 @@
 <template>
-  <transition-group tag="div" class="container">
+  <transition-group tag="div" :class="$style.container">
     <slot></slot>
   </transition-group>
 </template>
 
-<style scoped lang="scss">
+<style module lang="scss">
 .container {
   width: 100%;
   display: flex;

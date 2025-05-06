@@ -1,19 +1,23 @@
 <template>
-  <div class="container">
-    <div class="header">
+  <div :class="$style.container">
+    <div :class="$style.header">
       <ElmMdiIcon :d="mdiImage" size="1.25rem" color="gray" />
       <ElmInlineText :text="filename" />
     </div>
-    <div class="image-container">
-      <img class="image" :src="src" :alt="`${filename} (user contents)`" />
+    <div :class="$style['image-container']">
+      <img
+        :class="$style.image"
+        :src="src"
+        :alt="`${filename} (user contents)`"
+      />
     </div>
-    <div class="control">
+    <div :class="$style.control">
       <transition>
         <ElmDotLoadingIcon v-if="loading" size="1rem" />
       </transition>
 
       <ElmMdiIcon
-        class="icon-enable"
+        :class="$style['icon-enable']"
         :d="mdiDownload"
         size="1.25rem"
         color="#6987b8"
@@ -21,9 +25,13 @@
       />
 
       <ElmMdiIcon
-        :class="
-          loading ? ['icon-base', 'icon-disable'] : ['icon-base', 'icon-enable']
-        "
+        :class="[
+          $style['icon-base'],
+          {
+            [$style['icon-enable']]: !loading,
+            [$style['icon-disable']]: loading,
+          },
+        ]"
         :d="mdiTrashCanOutline"
         size="1.25rem"
         color="#c56565"
@@ -78,7 +86,7 @@ const downloadFile = async ({
 };
 </script>
 
-<style scoped lang="scss">
+<style module lang="scss">
 .container {
   width: 12rem;
   padding: 0;

@@ -1,6 +1,6 @@
 <template>
   <ElmArrowIcon :loading="loading" />
-  <div class="container">
+  <div :class="$style.container">
     <ElmButton
       v-for="variant in variants"
       :key="variant"
@@ -40,7 +40,7 @@ withDefaults(
 );
 </script>
 
-<style scoped lang="scss">
+<style module lang="scss">
 .container {
   display: flex;
   flex-direction: column;

@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper">
+  <div style="width: 100%">
     <ElmToggleTheme />
 
     <ImageSelect v-model="files" />
@@ -44,9 +44,3 @@ const toggle = () => {
   loading.value = !loading.value;
 };
 </script>
-
-<style scoped lang="scss">
-.wrapper {
-  width: 100%;
-}
-</style>
