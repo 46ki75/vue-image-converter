@@ -17,7 +17,7 @@
           v-for="file in files"
           :file="file"
           :loading="loading"
-          @delete="handleDelete"
+          @delete="handleSelectedFilesDelete"
         />
       </ImageContainer>
     </transition>
@@ -26,11 +26,34 @@
 
     <ElmArrowIcon :loading="loading" direction="down" />
 
-    <Convert :loading="loading" />
+    <Convert
+      v-model:loading="loading"
+      v-model:files="files"
+      v-model:converted-files="convertedFiles"
+    />
 
     <ElmArrowIcon :loading="loading" direction="down" />
 
-    <ElmButton block @click="toggle">Toggle</ElmButton>
+    <transition
+      mode="out-in"
+      :class="$style.container"
+      :enter-from-class="transitionStyle['v-enter-from']"
+      :enter-active-class="transitionStyle['v-enter-active']"
+      :enter-to-class="transitionStyle['v-enter-to']"
+      :leave-from-class="transitionStyle['v-leave-from']"
+      :leave-active-class="transitionStyle['v-leave-active']"
+      :leave-to-class="transitionStyle['v-leave-to']"
+    >
+      <ImageContainer :empty="convertedFiles.length === 0">
+        <File
+          v-for="file in convertedFiles"
+          :file="file"
+          :loading="loading"
+          @delete="handleConvertedFilesDelete"
+        />
+      </ImageContainer>
+    </transition>
+
     <ElmButton block @click="deleteAll">Delete All</ElmButton>
   </div>
 </template>
@@ -49,16 +72,20 @@ const loading = ref(false);
 
 const files = ref<File[]>([]);
 
-const handleDelete = (filename: string) => {
+const convertedFiles = ref<File[]>([]);
+
+const handleSelectedFilesDelete = (filename: string) => {
   files.value = files.value.filter((file) => file.name !== filename);
+};
+
+const handleConvertedFilesDelete = (filename: string) => {
+  convertedFiles.value = convertedFiles.value.filter(
+    (file) => file.name !== filename
+  );
 };
 
 const deleteAll = () => {
   files.value = [];
-};
-
-const toggle = () => {
-  loading.value = !loading.value;
 };
 </script>
 
