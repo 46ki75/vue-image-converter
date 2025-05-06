@@ -8,15 +8,20 @@
       <img class="image" :src="src" :alt="`${filename} (user contents)`" />
     </div>
     <div class="control">
+      <ElmDotLoadingIcon v-if="loading" size="1rem" />
+
       <ElmMdiIcon
-        class="icon"
+        class="icon-enable"
         :d="mdiDownload"
         size="1.25rem"
         color="#6987b8"
         @click="() => downloadFile({ url: src, filename })"
       />
+
       <ElmMdiIcon
-        class="icon"
+        :class="
+          loading ? ['icon-base', 'icon-disable'] : ['icon-base', 'icon-enable']
+        "
         :d="mdiTrashCanOutline"
         size="1.25rem"
         color="#c56565"
@@ -27,9 +32,14 @@
 
 <script setup lang="ts">
 import { mdiImage, mdiDownload, mdiTrashCanOutline } from "@mdi/js";
-import { ElmInlineText, ElmMdiIcon } from "@elmethis/core";
+import { ElmDotLoadingIcon, ElmInlineText, ElmMdiIcon } from "@elmethis/core";
 
-withDefaults(defineProps<{ src: string; filename: string }>(), {});
+withDefaults(
+  defineProps<{ src: string; filename: string; loading?: boolean }>(),
+  {
+    loading: false,
+  }
+);
 
 const downloadFile = async ({
   url,
@@ -115,11 +125,14 @@ const downloadFile = async ({
   gap: 0.25rem;
 }
 
-.icon {
+.icon-base {
   padding: 0.125rem;
   border-radius: 0.125rem;
-  cursor: pointer;
   transition: background-color 100ms, opacity 100ms, transform 100ms;
+}
+
+.icon-enable {
+  cursor: pointer;
 
   &:hover {
     background-color: rgba(gray, 0.2);
@@ -128,6 +141,20 @@ const downloadFile = async ({
   &:active {
     opacity: 0.5;
     transform: translateX(1px) translateY(1px);
+  }
+}
+
+.icon-disable {
+  cursor: progress;
+  opacity: 0.25;
+
+  &:hover {
+    background-color: transparent;
+  }
+
+  &:active {
+    opacity: 0.25;
+    transform: none;
   }
 }
 </style>
