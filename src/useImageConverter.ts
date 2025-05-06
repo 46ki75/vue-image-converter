@@ -34,6 +34,24 @@ export const useImageConverter = () => {
       );
   };
 
+  const handleSingleImageSelect = (file: File) => {
+    if (
+      inputImages.value.every((inputImage) => inputImage.name !== file.name)
+    ) {
+      inputImages.value.push(file);
+    }
+  };
+
+  const handleImageSelect = (file: File | File[] | FileList) => {
+    if (Array.isArray(file)) {
+      file.forEach(handleSingleImageSelect);
+    } else if (file instanceof FileList) {
+      Array.from(file).forEach(handleSingleImageSelect);
+    } else if (file instanceof File) {
+      handleSingleImageSelect(file);
+    }
+  };
+
   const convert = async (format: ImageFormat): Promise<void> => {
     if (inputImages.value.length === 0) return;
 
@@ -80,6 +98,7 @@ export const useImageConverter = () => {
     progress,
     inputImages,
     outputImages,
+    handleImageSelect,
     resetInputImages,
     resetOupputImages,
     removeInputImage,
