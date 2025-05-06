@@ -2,12 +2,19 @@
   <div class="container">
     <div class="header">
       <ElmMdiIcon :d="mdiImage" size="1.25rem" color="gray" />
-      <ElmInlineText :text="name" />
+      <ElmInlineText :text="filename" />
     </div>
     <div class="image-container">
-      <img class="image" :src="src" :alt="`${name} (user contents)`" />
+      <img class="image" :src="src" :alt="`${filename} (user contents)`" />
     </div>
     <div class="control">
+      <ElmMdiIcon
+        class="icon"
+        :d="mdiDownload"
+        size="1.25rem"
+        color="#6987b8"
+        @click="() => downloadFile({ url: src, filename })"
+      />
       <ElmMdiIcon
         class="icon"
         :d="mdiTrashCanOutline"
@@ -19,10 +26,35 @@
 </template>
 
 <script setup lang="ts">
-import { mdiImage, mdiTrashCanOutline } from "@mdi/js";
+import { mdiImage, mdiDownload, mdiTrashCanOutline } from "@mdi/js";
 import { ElmInlineText, ElmMdiIcon } from "@elmethis/core";
 
-withDefaults(defineProps<{ src: string; name: string }>(), {});
+withDefaults(defineProps<{ src: string; filename: string }>(), {});
+
+const downloadFile = async ({
+  url,
+  filename,
+}: {
+  url: string;
+  filename: string;
+}) => {
+  let link: HTMLAnchorElement | undefined;
+  try {
+    const response = await fetch(url);
+    if (!response.ok) throw new Error("Failed to download file");
+
+    const blob = await response.blob();
+
+    link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = filename;
+    link.click();
+  } catch (error) {
+    console.error("ERROR:", error);
+  } finally {
+    if (link) URL.revokeObjectURL(link.href);
+  }
+};
 </script>
 
 <style scoped lang="scss">
@@ -52,6 +84,7 @@ withDefaults(defineProps<{ src: string; name: string }>(), {});
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
 }
 
 .image {
