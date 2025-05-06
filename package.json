@@ -21,6 +21,7 @@
   },
   "scripts": {
     "dev": "vite --config ./vite.config.dev.ts",
+    "prepublishOnly": "npm run build",
     "build": "vue-tsc -b && vite build --config ./vite.config.build.ts",
     "preview": "vite preview"
   },
