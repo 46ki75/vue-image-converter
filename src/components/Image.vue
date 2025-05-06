@@ -20,12 +20,12 @@
     </div>
     <div :class="$style.control">
       <transition
-        :enter-from-class="$style['v-enter-from']"
-        :enter-active-class="$style['v-enter-active']"
-        :enter-to-class="$style['v-enter-to']"
-        :leave-from-class="$style['v-leave-from']"
-        :leave-active-class="$style['v-leave-active']"
-        :leave-to-class="$style['v-leave-to']"
+        :enter-from-class="transitionStyle['v-enter-from']"
+        :enter-active-class="transitionStyle['v-enter-active']"
+        :enter-to-class="transitionStyle['v-enter-to']"
+        :leave-from-class="transitionStyle['v-leave-from']"
+        :leave-active-class="transitionStyle['v-leave-active']"
+        :leave-to-class="transitionStyle['v-leave-to']"
       >
         <ElmDotLoadingIcon v-if="loading" size="1rem" />
       </transition>
@@ -58,6 +58,8 @@
 <script setup lang="ts">
 import { mdiImage, mdiDownload, mdiTrashCanOutline } from "@mdi/js";
 import { ElmDotLoadingIcon, ElmInlineText, ElmMdiIcon } from "@elmethis/core";
+
+import transitionStyle from "../transition.module.scss";
 
 const props = withDefaults(
   defineProps<{
@@ -213,20 +215,5 @@ const downloadFile = async ({
     opacity: 0.25;
     transform: none;
   }
-}
-
-.v-enter-to,
-.v-leave-from {
-  opacity: 1;
-}
-
-.v-enter-active,
-.v-leave-active {
-  transition: opacity 300ms;
-}
-
-.v-enter-from,
-.v-leave-to {
-  opacity: 0;
 }
 </style>

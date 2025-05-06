@@ -8,12 +8,12 @@
     v-else
     tag="div"
     :class="$style.container"
-    :enter-from-class="$style['v-enter-from']"
-    :enter-active-class="$style['v-enter-active']"
-    :enter-to-class="$style['v-enter-to']"
-    :leave-from-class="$style['v-leave-from']"
-    :leave-active-class="$style['v-leave-active']"
-    :leave-to-class="$style['v-leave-to']"
+    :enter-from-class="transitionStyle['v-enter-from']"
+    :enter-active-class="transitionStyle['v-enter-active']"
+    :enter-to-class="transitionStyle['v-enter-to']"
+    :leave-from-class="transitionStyle['v-leave-from']"
+    :leave-active-class="transitionStyle['v-leave-active']"
+    :leave-to-class="transitionStyle['v-leave-to']"
   >
     <slot></slot>
   </transition-group>
@@ -22,6 +22,8 @@
 <script setup lang="ts">
 import { ElmInlineText, ElmMdiIcon } from "@elmethis/core";
 import { mdiImageOff } from "@mdi/js";
+
+import transitionStyle from "../transition.module.scss";
 
 defineProps<{
   empty: boolean;
@@ -48,20 +50,5 @@ defineProps<{
   justify-content: center;
   align-items: center;
   gap: 0.5rem;
-}
-
-.v-enter-to,
-.v-leave-from {
-  opacity: 1;
-}
-
-.v-enter-active,
-.v-leave-active {
-  transition: opacity 200ms;
-}
-
-.v-enter-from,
-.v-leave-to {
-  opacity: 0;
 }
 </style>
