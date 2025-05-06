@@ -80,11 +80,23 @@ const downloadFile = async ({
 
 .image-container {
   height: 8rem;
-  background-color: rgba(gray, 0.05);
   box-sizing: border-box;
   display: flex;
   justify-content: center;
   align-items: center;
+
+  --oblique-line-weight: 0.5px;
+  --oblique-line-gap: 0.75rem;
+  --oblique-line-color: #f2f2f2;
+  --oblique-line-bg: white;
+
+  background: repeating-linear-gradient(
+    -45deg,
+    var(--oblique-line-color),
+    var(--oblique-line-color) var(--oblique-line-weight),
+    var(--oblique-line-bg) var(--oblique-line-weight),
+    var(--oblique-line-bg) var(--oblique-line-gap)
+  );
 }
 
 .image {
