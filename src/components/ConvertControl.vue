@@ -70,6 +70,50 @@ const replaceExtension = (path: string, newExt: string): string => {
   return path.slice(0, index) + ext;
 };
 
+const toBmp = async (file: File): Promise<File> => {
+  await api.init();
+  const buffer = await file.arrayBuffer();
+  const bytes = new Uint8Array(buffer);
+  const uint8array = await api.bmp(bytes);
+  const blob = new Blob([uint8array], { type: "image/bmp" });
+  const newFileName = replaceExtension(file.name, "bmp");
+  const result = new File([blob], newFileName, { type: "image/bmp" });
+  return result;
+};
+
+const toJpeg = async (file: File): Promise<File> => {
+  await api.init();
+  const buffer = await file.arrayBuffer();
+  const bytes = new Uint8Array(buffer);
+  const uint8array = await api.jpeg(bytes);
+  const blob = new Blob([uint8array], { type: "image/jpeg" });
+  const newFileName = replaceExtension(file.name, "jpg");
+  const result = new File([blob], newFileName, { type: "image/jpeg" });
+  return result;
+};
+
+const toPng = async (file: File): Promise<File> => {
+  await api.init();
+  const buffer = await file.arrayBuffer();
+  const bytes = new Uint8Array(buffer);
+  const uint8array = await api.png(bytes);
+  const blob = new Blob([uint8array], { type: "image/png" });
+  const newFileName = replaceExtension(file.name, "png");
+  const result = new File([blob], newFileName, { type: "image/png" });
+  return result;
+};
+
+const toWebp = async (file: File): Promise<File> => {
+  await api.init();
+  const buffer = await file.arrayBuffer();
+  const bytes = new Uint8Array(buffer);
+  const uint8array = await api.webp(bytes);
+  const blob = new Blob([uint8array], { type: "image/webp" });
+  const newFileName = replaceExtension(file.name, "webp");
+  const result = new File([blob], newFileName, { type: "image/webp" });
+  return result;
+};
+
 const handleConvert = async (format: ImageFormat) => {
   if (selectedFiles.value.length === 0) return;
 
@@ -82,12 +126,7 @@ const handleConvert = async (format: ImageFormat) => {
     switch (format) {
       case "BMP": {
         for (const file of selectedFiles.value) {
-          const buffer = await file.arrayBuffer();
-          const bytes = new Uint8Array(buffer);
-          const uint8array = await api.bmp(bytes);
-          const blob = new Blob([uint8array], { type: "image/bmp" });
-          const newFileName = replaceExtension(file.name, "bmp");
-          const result = new File([blob], newFileName, { type: "image/bmp" });
+          const result = await toBmp(file);
           await nextTick();
           convertedFiles.value.push(result);
         }
@@ -96,12 +135,7 @@ const handleConvert = async (format: ImageFormat) => {
 
       case "JPEG": {
         for (const file of selectedFiles.value) {
-          const buffer = await file.arrayBuffer();
-          const bytes = new Uint8Array(buffer);
-          const uint8array = await api.jpeg(bytes);
-          const blob = new Blob([uint8array], { type: "image/jpeg" });
-          const newFileName = replaceExtension(file.name, "jpg");
-          const result = new File([blob], newFileName, { type: "image/jpeg" });
+          const result = await toJpeg(file);
           await nextTick();
           convertedFiles.value.push(result);
         }
@@ -110,12 +144,7 @@ const handleConvert = async (format: ImageFormat) => {
 
       case "PNG": {
         for (const file of selectedFiles.value) {
-          const buffer = await file.arrayBuffer();
-          const bytes = new Uint8Array(buffer);
-          const uint8array = await api.png(bytes);
-          const blob = new Blob([uint8array], { type: "image/png" });
-          const newFileName = replaceExtension(file.name, "png");
-          const result = new File([blob], newFileName, { type: "image/png" });
+          const result = await toPng(file);
           await nextTick();
           convertedFiles.value.push(result);
         }
@@ -124,12 +153,7 @@ const handleConvert = async (format: ImageFormat) => {
 
       case "WEBP": {
         for (const file of selectedFiles.value) {
-          const buffer = await file.arrayBuffer();
-          const bytes = new Uint8Array(buffer);
-          const uint8array = await api.webp(bytes);
-          const blob = new Blob([uint8array], { type: "image/webp" });
-          const newFileName = replaceExtension(file.name, "webp");
-          const result = new File([blob], newFileName, { type: "image/webp" });
+          const result = await toWebp(file);
           await nextTick();
           convertedFiles.value.push(result);
         }
