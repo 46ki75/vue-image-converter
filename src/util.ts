@@ -1,10 +1,11 @@
 import * as Comlink from "comlink";
+import type { ImageFormat } from "./type";
 
 const worker = new Worker(new URL("./worker.ts", import.meta.url), {
   type: "module",
 });
 
-const api = Comlink.wrap<{
+export const api = Comlink.wrap<{
   init(): Promise<void>;
   png(bytes: Uint8Array): Promise<Uint8Array>;
   jpeg(bytes: Uint8Array): Promise<Uint8Array>;
@@ -64,8 +65,6 @@ const toWebp = async (file: File): Promise<File> => {
   const result = new File([blob], newFileName, { type: "image/webp" });
   return result;
 };
-
-export type ImageFormat = "BMP" | "JPEG" | "PNG" | "WEBP";
 
 export const convertImageWithWebWorker = async ({
   file,
