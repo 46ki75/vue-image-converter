@@ -11,12 +11,15 @@
     src="https://images.unsplash.com/photo-1556983703-27576e5afa24?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb"
   />
 
+  <Convert :loading="loading" />
+
   <ElmButton @click="toggle">Toggle</ElmButton>
 </template>
 
 <script setup lang="ts">
 import { ElmToggleTheme, ElmButton } from "@elmethis/core";
 import Image from "./components/Image.vue";
+import Convert from "./components/Convert.vue";
 import { ref } from "vue";
 
 const loading = ref(false);

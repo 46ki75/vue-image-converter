@@ -35,7 +35,7 @@ import { mdiImage, mdiDownload, mdiTrashCanOutline } from "@mdi/js";
 import { ElmDotLoadingIcon, ElmInlineText, ElmMdiIcon } from "@elmethis/core";
 
 withDefaults(
-  defineProps<{ src: string; filename: string; loading?: boolean }>(),
+  defineProps<{ src: string; filename: string; loading: boolean }>(),
   {
     loading: false,
   }
