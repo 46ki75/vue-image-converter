@@ -44,7 +44,8 @@ defineProps<{
 <style module lang="scss">
 .container {
   width: 100%;
-  height: 18rem;
+  padding-block: 0.25rem;
+  height: 17.5rem;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
