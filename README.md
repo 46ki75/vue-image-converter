@@ -45,19 +45,19 @@ const workerApi = {
       initialized = true;
     }
   },
-  async png(bytes: Uint8Array): Promise<Uint8Array> {
+  async png({ bytes }: { bytes: Uint8Array }): Promise<Uint8Array> {
     await workerApi.init();
     return png().convert(bytes);
   },
-  async jpeg(bytes: Uint8Array): Promise<Uint8Array> {
+  async jpeg({ bytes }: { bytes: Uint8Array }): Promise<Uint8Array> {
     await workerApi.init();
     return jpeg().quality(80).convert(bytes);
   },
-  async webp(bytes: Uint8Array): Promise<Uint8Array> {
+  async webp({ bytes }: { bytes: Uint8Array }): Promise<Uint8Array> {
     await workerApi.init();
     return webp().convert(bytes);
   },
-  async bmp(bytes: Uint8Array): Promise<Uint8Array> {
+  async bmp({ bytes }: { bytes: Uint8Array }): Promise<Uint8Array> {
     await workerApi.init();
     return bmp().convert(bytes);
   },
@@ -81,10 +81,10 @@ const worker = new Worker(new URL("./worker.ts", import.meta.url), {
 
 export const imageConverterFunctionMap = Comlink.wrap<{
   init(): Promise<void>;
-  png(bytes: Uint8Array): Promise<Uint8Array>;
-  jpeg(bytes: Uint8Array): Promise<Uint8Array>;
-  bmp(bytes: Uint8Array): Promise<Uint8Array>;
-  webp(bytes: Uint8Array): Promise<Uint8Array>;
+  png({ bytes }: { bytes: Uint8Array }): Promise<Uint8Array>;
+  jpeg({ bytes }: { bytes: Uint8Array }): Promise<Uint8Array>;
+  bmp({ bytes }: { bytes: Uint8Array }): Promise<Uint8Array>;
+  webp({ bytes }: { bytes: Uint8Array }): Promise<Uint8Array>;
 }>(worker);
 ```
 
