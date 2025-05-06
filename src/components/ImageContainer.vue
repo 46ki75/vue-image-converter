@@ -1,7 +1,7 @@
 <template>
   <div v-if="empty" :class="$style.empty">
     <ElmMdiIcon :d="mdiImageOff" color="gray" size="1.5rem" />
-    <ElmInlineText text="No Image Selected" color="gray" />
+    <ElmInlineText :text="text" color="gray" />
   </div>
 
   <transition-group
@@ -26,6 +26,7 @@ import { mdiImageOff } from "@mdi/js";
 import transitionStyle from "../transition.module.scss";
 
 defineProps<{
+  text: string;
   empty: boolean;
 }>();
 </script>

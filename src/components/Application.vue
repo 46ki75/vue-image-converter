@@ -12,7 +12,7 @@
       :leave-active-class="transitionStyle['v-leave-active']"
       :leave-to-class="transitionStyle['v-leave-to']"
     >
-      <ImageContainer :empty="files.length === 0">
+      <ImageContainer :empty="files.length === 0" :text="'No Image Selected'">
         <File
           v-for="file in files"
           :file="file"
@@ -44,7 +44,7 @@
       :leave-active-class="transitionStyle['v-leave-active']"
       :leave-to-class="transitionStyle['v-leave-to']"
     >
-      <ImageContainer :empty="convertedFiles.length === 0">
+      <ImageContainer :empty="convertedFiles.length === 0" :text="'No Results'">
         <File
           v-for="file in convertedFiles"
           :file="file"
