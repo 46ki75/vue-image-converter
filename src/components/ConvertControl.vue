@@ -77,7 +77,8 @@ const handleConvert = async (format: ImageFormat) => {
           const bytes = new Uint8Array(buffer);
           const uint8array = await api.jpeg(bytes);
           const blob = new Blob([uint8array], { type: "image/jpeg" });
-          const result = new File([blob], file.name, { type: "image/jpeg" });
+          const newFileName = replaceExtension(file.name, "jpg");
+          const result = new File([blob], newFileName, { type: "image/jpeg" });
           convertedFiles.value.push(result);
         }
         break;
@@ -89,7 +90,8 @@ const handleConvert = async (format: ImageFormat) => {
           const bytes = new Uint8Array(buffer);
           const uint8array = await api.png(bytes);
           const blob = new Blob([uint8array], { type: "image/png" });
-          const result = new File([blob], file.name, { type: "image/png" });
+          const newFileName = replaceExtension(file.name, "png");
+          const result = new File([blob], newFileName, { type: "image/png" });
           convertedFiles.value.push(result);
         }
         break;
@@ -101,7 +103,8 @@ const handleConvert = async (format: ImageFormat) => {
           const bytes = new Uint8Array(buffer);
           const uint8array = await api.webp(bytes);
           const blob = new Blob([uint8array], { type: "image/webp" });
-          const result = new File([blob], file.name, { type: "image/webp" });
+          const newFileName = replaceExtension(file.name, "webp");
+          const result = new File([blob], newFileName, { type: "image/webp" });
           convertedFiles.value.push(result);
         }
         break;

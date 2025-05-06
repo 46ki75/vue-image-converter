@@ -86,6 +86,7 @@ const handleConvertedFilesDelete = (filename: string) => {
 
 const deleteAll = () => {
   files.value = [];
+  convertedFiles.value = [];
 };
 </script>
 

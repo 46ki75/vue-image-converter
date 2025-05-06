@@ -16,7 +16,7 @@ const workerApi = {
   },
   async jpeg(bytes: Uint8Array): Promise<Uint8Array> {
     await workerApi.init();
-    return jpeg().convert(bytes);
+    return jpeg().quality(80).convert(bytes);
   },
   async webp(bytes: Uint8Array): Promise<Uint8Array> {
     await workerApi.init();
