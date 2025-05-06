@@ -26,7 +26,7 @@
       </ImageContainer>
     </transition>
 
-    <ImageSelect v-model="inputImages" />
+    <ImageSelect v-model="inputImages" :loading="loading" />
 
     <ElmArrowIcon :loading="loading" direction="down" />
 

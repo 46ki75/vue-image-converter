@@ -13,23 +13,25 @@ export const useImageConverter = () => {
   const outputImages = ref<File[]>([]);
 
   const resetInputImages = () => {
-    inputImages.value = [];
+    if (!loading.value) inputImages.value = [];
   };
 
   const resetOupputImages = () => {
-    outputImages.value = [];
+    if (!loading.value) outputImages.value = [];
   };
 
   const removeInputImage = (fileName: string) => {
-    inputImages.value = inputImages.value.filter(
-      (image) => image.name !== fileName
-    );
+    if (!loading.value)
+      inputImages.value = inputImages.value.filter(
+        (image) => image.name !== fileName
+      );
   };
 
   const removeOupputImage = (fileName: string) => {
-    outputImages.value = outputImages.value.filter(
-      (image) => image.name !== fileName
-    );
+    if (!loading.value)
+      outputImages.value = outputImages.value.filter(
+        (image) => image.name !== fileName
+      );
   };
 
   const convert = async (format: ImageFormat): Promise<void> => {
