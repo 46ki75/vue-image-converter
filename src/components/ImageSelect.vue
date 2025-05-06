@@ -39,11 +39,12 @@ const handleFileChange = async () => {
     for (const selectedFile of selectedFiles) {
       if (files.value.every((file) => file.name !== selectedFile.name)) {
         files.value.push(selectedFile);
-        fileInputRef.value.value = "";
       } else {
         error.value = "This file has already been selected.";
       }
     }
+
+    fileInputRef.value.value = "";
   }
 };
 </script>
