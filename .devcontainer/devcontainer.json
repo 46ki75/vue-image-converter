@@ -17,8 +17,6 @@
         "yzhang.markdown-all-in-one",
         "dbaeumer.vscode-eslint",
         "esbenp.prettier-vscode",
-        // Terraform
-        "HashiCorp.terraform",
         // Vue
         "Vue.volar"
       ]
