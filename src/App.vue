@@ -7,7 +7,7 @@
 </template>
 
 <script setup lang="ts">
-import ImageConverter from "./components/ImageConverter.vue";
+import ImageConverter from "./components/Application.vue";
 </script>
 
 <style lang="scss">
