@@ -22,7 +22,7 @@
     <ElmProgress
       :value="convertedFiles.length"
       :max="convertedFiles.length === 0 ? 1 : selectedFiles.length"
-      color="#6987b8"
+      :color="loading ? '#6987b8' : '#59b57c'"
     />
   </div>
 </template>

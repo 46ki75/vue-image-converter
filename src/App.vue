@@ -37,6 +37,6 @@ body {
 
 .container {
   width: 100%;
-  max-width: 1000px;
+  max-width: calc(12.75rem * 5);
 }
 </style>

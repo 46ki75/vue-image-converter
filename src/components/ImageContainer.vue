@@ -44,7 +44,7 @@ defineProps<{
 <style module lang="scss">
 .container {
   width: 100%;
-  height: 12rem;
+  height: 18rem;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -58,7 +58,7 @@ defineProps<{
   box-sizing: border-box;
   width: 100%;
   padding-block: 0.25rem;
-  height: 12rem;
+  height: 18rem;
   border: 1px dashed rgba(gray, 0.8);
   border-radius: 0.25rem;
   display: flex;
