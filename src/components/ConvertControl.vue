@@ -71,7 +71,6 @@ const replaceExtension = (path: string, newExt: string): string => {
 };
 
 const toBmp = async (file: File): Promise<File> => {
-  await api.init();
   const buffer = await file.arrayBuffer();
   const bytes = new Uint8Array(buffer);
   const uint8array = await api.bmp(bytes);
@@ -82,7 +81,6 @@ const toBmp = async (file: File): Promise<File> => {
 };
 
 const toJpeg = async (file: File): Promise<File> => {
-  await api.init();
   const buffer = await file.arrayBuffer();
   const bytes = new Uint8Array(buffer);
   const uint8array = await api.jpeg(bytes);
@@ -93,7 +91,6 @@ const toJpeg = async (file: File): Promise<File> => {
 };
 
 const toPng = async (file: File): Promise<File> => {
-  await api.init();
   const buffer = await file.arrayBuffer();
   const bytes = new Uint8Array(buffer);
   const uint8array = await api.png(bytes);
@@ -104,7 +101,6 @@ const toPng = async (file: File): Promise<File> => {
 };
 
 const toWebp = async (file: File): Promise<File> => {
-  await api.init();
   const buffer = await file.arrayBuffer();
   const bytes = new Uint8Array(buffer);
   const uint8array = await api.webp(bytes);
