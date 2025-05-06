@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@elmethis/core':
-        specifier: 1.0.0-alpha.195
-        version: 1.0.0-alpha.195(vue@3.5.13(typescript@5.8.3))
+        specifier: ^0.1.0
+        version: 0.1.0(vue@3.5.13(typescript@5.8.3))
       '@mdi/js':
         specifier: ^7.4.47
         version: 7.4.47
@@ -40,7 +40,7 @@ importers:
         specifier: ^1.87.0
         version: 1.87.0
       typescript:
-        specifier: ~5.8.3
+        specifier: ^5.8.3
         version: 5.8.3
       vite:
         specifier: ^6.3.5
@@ -81,8 +81,8 @@ packages:
   '@bufbuild/protobuf@2.2.5':
     resolution: {integrity: sha512-/g5EzJifw5GF8aren8wZ/G5oMuPoGeS6MQD3ca8ddcvdXR5UELUfdTZITCGNhNXynY/AYl3Z4plmxdj/tRl/hQ==}
 
-  '@elmethis/core@1.0.0-alpha.195':
-    resolution: {integrity: sha512-QSFPldc8NK3DAl8hmNZlPm8jwgShsY7SqREIQzRrAVokuIbjngeli8wuu1tGpKE363y8nC9UbWldmn3+vs4MFQ==}
+  '@elmethis/core@0.1.0':
+    resolution: {integrity: sha512-RPwYdIfMcQEglV4bAKDF8BlkF2DxykNWfcecyk7rrGIP3x5edD+GpAFP/nt0mpM90qZfVGt8dOGrhnqiHCNYLw==}
     peerDependencies:
       vue: '>=3.4.0'
 
@@ -1175,7 +1175,7 @@ snapshots:
 
   '@bufbuild/protobuf@2.2.5': {}
 
-  '@elmethis/core@1.0.0-alpha.195(vue@3.5.13(typescript@5.8.3))':
+  '@elmethis/core@0.1.0(vue@3.5.13(typescript@5.8.3))':
     dependencies:
       '@mdi/js': 7.4.47
       '@vueuse/core': 13.1.0(vue@3.5.13(typescript@5.8.3))
