@@ -1,20 +1,39 @@
 <template>
   <div :class="$style.container">
-    <ElmButton
-      v-for="format in formats"
-      :key="format"
-      block
-      :disabled="loading || files.length === 0"
-      @click="handleConvert(format)"
-    >
-      <ElmMdiIcon :d="mdiImageSync" color="gray" size="1.25rem" />
-      <ElmInlineText :text="format" />
-    </ElmButton>
+    <div :class="$style['button-container']">
+      <ElmButton
+        v-for="format in formats"
+        :key="format"
+        block
+        :disabled="loading || selectedFiles.length === 0"
+        @click="handleConvert(format)"
+      >
+        <ElmMdiIcon :d="mdiImageSync" color="gray" size="1.25rem" />
+        <ElmInlineText :text="format" />
+      </ElmButton>
+    </div>
+
+    <div>
+      <ElmInlineText
+        :text="`Converted ${convertedFiles.length} / ${selectedFiles.length}`"
+      />
+    </div>
+
+    <ElmProgress
+      :value="convertedFiles.length"
+      :max="convertedFiles.length === 0 ? 1 : selectedFiles.length"
+      color="#6987b8"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ElmButton, ElmInlineText, ElmMdiIcon } from "@elmethis/core";
+import {
+  ElmButton,
+  ElmInlineText,
+  ElmMdiIcon,
+  ElmProgress,
+} from "@elmethis/core";
 import { mdiImageSync } from "@mdi/js";
 
 import * as Comlink from "comlink";
@@ -37,7 +56,7 @@ const formats: ImageFormat[] = ["BMP", "JPEG", "PNG", "WEBP"] as const;
 
 const loading = defineModel<boolean>("loading", { default: false });
 
-const files = defineModel<File[]>("selected-files", { default: [] });
+const selectedFiles = defineModel<File[]>("selected-files", { default: [] });
 
 const convertedFiles = defineModel<File[]>("converted-files", { default: [] });
 
@@ -51,7 +70,7 @@ const replaceExtension = (path: string, newExt: string): string => {
 };
 
 const handleConvert = async (format: ImageFormat) => {
-  if (files.value.length === 0) return;
+  if (selectedFiles.value.length === 0) return;
 
   loading.value = true;
   convertedFiles.value = [];
@@ -61,7 +80,7 @@ const handleConvert = async (format: ImageFormat) => {
 
     switch (format) {
       case "BMP": {
-        for (const file of files.value) {
+        for (const file of selectedFiles.value) {
           const buffer = await file.arrayBuffer();
           const bytes = new Uint8Array(buffer);
           const uint8array = await api.bmp(bytes);
@@ -74,7 +93,7 @@ const handleConvert = async (format: ImageFormat) => {
       }
 
       case "JPEG": {
-        for (const file of files.value) {
+        for (const file of selectedFiles.value) {
           const buffer = await file.arrayBuffer();
           const bytes = new Uint8Array(buffer);
           const uint8array = await api.jpeg(bytes);
@@ -87,7 +106,7 @@ const handleConvert = async (format: ImageFormat) => {
       }
 
       case "PNG": {
-        for (const file of files.value) {
+        for (const file of selectedFiles.value) {
           const buffer = await file.arrayBuffer();
           const bytes = new Uint8Array(buffer);
           const uint8array = await api.png(bytes);
@@ -100,7 +119,7 @@ const handleConvert = async (format: ImageFormat) => {
       }
 
       case "WEBP": {
-        for (const file of files.value) {
+        for (const file of selectedFiles.value) {
           const buffer = await file.arrayBuffer();
           const bytes = new Uint8Array(buffer);
           const uint8array = await api.webp(bytes);
@@ -123,6 +142,14 @@ const handleConvert = async (format: ImageFormat) => {
 
 <style module lang="scss">
 .container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.button-container {
   display: flex;
   flex-direction: row;
   justify-content: center;
