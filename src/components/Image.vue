@@ -85,18 +85,14 @@ const downloadFile = async ({
   justify-content: center;
   align-items: center;
 
-  --oblique-line-weight: 0.5px;
-  --oblique-line-gap: 0.75rem;
-  --oblique-line-color: #f2f2f2;
-  --oblique-line-bg: white;
+  --bg-dot-color: #e6e6e6;
 
-  background: repeating-linear-gradient(
-    -45deg,
-    var(--oblique-line-color),
-    var(--oblique-line-color) var(--oblique-line-weight),
-    var(--oblique-line-bg) var(--oblique-line-weight),
-    var(--oblique-line-bg) var(--oblique-line-gap)
-  );
+  [data-theme="dark"] & {
+    --bg-dot-color: #333;
+  }
+
+  background-image: radial-gradient(var(--bg-dot-color) 1px, transparent 1px);
+  background-size: 10px 10px;
 }
 
 .image {
@@ -110,7 +106,7 @@ const downloadFile = async ({
 .control {
   box-sizing: border-box;
   width: 100%;
-  padding: 0.25rem;
+  padding: 0.125rem 0.25rem;
   background-color: rgba(gray, 0.1);
   border-top: 1px solid rgba(gray, 0.3);
   display: flex;
