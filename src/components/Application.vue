@@ -18,6 +18,7 @@
       >
         <File
           v-for="file in selectedFiles"
+          :key="file.name"
           :file="file"
           :loading="loading"
           @delete="handleSelectedFilesDelete"
@@ -50,6 +51,7 @@
       <ImageContainer :empty="convertedFiles.length === 0" :text="'No Results'">
         <File
           v-for="file in convertedFiles"
+          :key="file.name"
           :file="file"
           :loading="loading"
           @delete="handleConvertedFilesDelete"
