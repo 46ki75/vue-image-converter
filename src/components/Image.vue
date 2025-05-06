@@ -8,7 +8,9 @@
       <img class="image" :src="src" :alt="`${filename} (user contents)`" />
     </div>
     <div class="control">
-      <ElmDotLoadingIcon v-if="loading" size="1rem" />
+      <transition>
+        <ElmDotLoadingIcon v-if="loading" size="1rem" />
+      </transition>
 
       <ElmMdiIcon
         class="icon-enable"
@@ -156,5 +158,20 @@ const downloadFile = async ({
     opacity: 0.25;
     transform: none;
   }
+}
+
+.v-enter-to,
+.v-leave-from {
+  opacity: 1;
+}
+
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 300ms;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
 }
 </style>
