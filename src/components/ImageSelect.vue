@@ -10,6 +10,7 @@
     />
 
     <div v-if="error != null" :class="$style.error">
+      <ElmMdiIcon :d="mdiAlert" size="1.25rem" color="#c56565" />
       <ElmInlineText :text="error" color="#c56565" />
     </div>
 
@@ -22,7 +23,7 @@
 
 <script setup lang="ts">
 import { ElmButton, ElmInlineText, ElmMdiIcon } from "@elmethis/core";
-import { mdiImagePlus } from "@mdi/js";
+import { mdiAlert, mdiImagePlus } from "@mdi/js";
 import { ref } from "vue";
 
 const fileInputRef = ref<HTMLInputElement | null>(null);
@@ -53,7 +54,7 @@ const handleFileChange = async () => {
 }
 
 .error {
-  margin-block: 0.5rem;
+  margin-block: 1rem;
   width: 100%;
   display: flex;
   flex-direction: row;
