@@ -4,7 +4,7 @@
     :src="url"
     :filename="file.name"
     :loading="loading"
-    :handleDelete="handleDelete"
+    @delete="emit('delete', file.name)"
   />
 </template>
 
@@ -15,10 +15,13 @@ import Image from "./Image.vue";
 const props = defineProps<{
   file: File;
   loading: boolean;
-  handleDelete: (filename: string) => void;
 }>();
 
 const url = ref<string | undefined>();
+
+const emit = defineEmits<{
+  (e: "delete", filename: string): void;
+}>();
 
 onMounted(async () => {
   const buffer = await props.file.arrayBuffer();

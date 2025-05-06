@@ -8,7 +8,7 @@
       v-for="file in files"
       :file="file"
       :loading="loading"
-      :handleDelete="handleDelete"
+      @delete="handleDelete"
     />
   </ImageContainer>
 
@@ -31,7 +31,8 @@ const loading = ref(false);
 const files = ref<File[]>([]);
 
 const handleDelete = (filename: string) => {
-  files.value.filter((file) => file.name === filename);
+  console.log(111);
+  files.value = files.value.filter((file) => file.name !== filename);
 };
 
 const deleteAll = () => {

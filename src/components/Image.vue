@@ -27,7 +27,7 @@
         :d="mdiTrashCanOutline"
         size="1.25rem"
         color="#c56565"
-        @click="handleDelete(filename)"
+        @click="emit('delete', filename)"
       />
     </div>
   </div>
@@ -42,12 +42,15 @@ withDefaults(
     src: string;
     filename: string;
     loading: boolean;
-    handleDelete: (filename: string) => void;
   }>(),
   {
     loading: false,
   }
 );
+
+const emit = defineEmits<{
+  (e: "delete", filename: string): void;
+}>();
 
 const downloadFile = async ({
   url,
