@@ -1,8 +1,15 @@
 <template>
   <div :class="$style.container">
     <div :class="$style.header">
-      <ElmMdiIcon :d="mdiImage" size="1.25rem" color="gray" />
-      <ElmInlineText :text="filename" />
+      <ElmMdiIcon
+        :d="mdiImage"
+        size="1.25rem"
+        color="gray"
+        style="flex-shrink: 0"
+      />
+      <span :class="$style.filename" :title="filename">
+        <ElmInlineText :text="filename" size="0.9rem" />
+      </span>
     </div>
     <div :class="$style['image-container']">
       <img
@@ -155,6 +162,12 @@ const downloadFile = async ({
   animation-delay: 500ms;
   animation-duration: 300ms;
   animation-fill-mode: both;
+}
+
+.filename {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .control {
