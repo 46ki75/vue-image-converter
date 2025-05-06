@@ -4,7 +4,7 @@ const worker = new Worker(new URL("./worker.ts", import.meta.url), {
   type: "module",
 });
 
-export const api = Comlink.wrap<{
+export const imageConverterFunctionMap = Comlink.wrap<{
   init(): Promise<void>;
   png(bytes: Uint8Array): Promise<Uint8Array>;
   jpeg(bytes: Uint8Array): Promise<Uint8Array>;

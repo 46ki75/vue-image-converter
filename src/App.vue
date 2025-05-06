@@ -1,14 +1,16 @@
 <template>
   <div :class="$style.wrapper">
     <div :class="$style.container">
-      <ImageConverter :use-image-converter-function="api" />
+      <ImageConverter
+        :image-converter-function-map="imageConverterFunctionMap"
+      />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import ImageConverter from "./components/Application.vue";
-import { api } from "./util";
+import { imageConverterFunctionMap } from "./util";
 </script>
 
 <style module lang="scss">
