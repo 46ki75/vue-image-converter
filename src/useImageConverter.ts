@@ -1,4 +1,4 @@
-import { nextTick, ref } from "vue";
+import { nextTick, ref, watch } from "vue";
 import type { ImageFormat } from "./type";
 import { api, convertImageWithWebWorker } from "./util";
 
@@ -13,23 +13,25 @@ export const useImageConverter = () => {
   const outputImages = ref<File[]>([]);
 
   const resetInputImages = () => {
-    inputImages.value = [];
+    if (!loading.value) inputImages.value = [];
   };
 
   const resetOupputImages = () => {
-    outputImages.value = [];
+    if (!loading.value) outputImages.value = [];
   };
 
   const removeInputImage = (fileName: string) => {
-    inputImages.value = inputImages.value.filter(
-      (image) => image.name !== fileName
-    );
+    if (!loading.value)
+      inputImages.value = inputImages.value.filter(
+        (image) => image.name !== fileName
+      );
   };
 
   const removeOupputImage = (fileName: string) => {
-    outputImages.value = outputImages.value.filter(
-      (image) => image.name !== fileName
-    );
+    if (!loading.value)
+      outputImages.value = outputImages.value.filter(
+        (image) => image.name !== fileName
+      );
   };
 
   const convert = async (format: ImageFormat): Promise<void> => {
@@ -64,6 +66,13 @@ export const useImageConverter = () => {
       status.value = "COMPLETE";
     }
   };
+
+  watch(
+    () => inputImages.value.length,
+    () => {
+      progress.value = 0;
+    }
+  );
 
   return {
     status,

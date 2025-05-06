@@ -26,7 +26,7 @@
       </ImageContainer>
     </transition>
 
-    <ImageSelect v-model="inputImages" />
+    <ImageSelect v-model="inputImages" :loading="loading" />
 
     <ElmArrowIcon :loading="loading" direction="down" />
 
@@ -61,13 +61,11 @@
         />
       </ImageContainer>
     </transition>
-
-    <ElmButton block @click="deleteAll">Delete All</ElmButton>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ElmToggleTheme, ElmButton, ElmArrowIcon } from "@elmethis/core";
+import { ElmToggleTheme, ElmArrowIcon } from "@elmethis/core";
 import Convert from "./ConvertControl.vue";
 import ImageContainer from "./ImageContainer.vue";
 import File from "./FileToImage.vue";
@@ -82,17 +80,10 @@ const {
   outputImages,
   status,
   progress,
-  resetInputImages,
-  resetOupputImages,
   removeInputImage,
   removeOupputImage,
   convert,
 } = useImageConverter();
-
-const deleteAll = () => {
-  resetInputImages();
-  resetOupputImages();
-};
 </script>
 
 <style module lang="scss">

@@ -15,12 +15,12 @@
     </div>
 
     <div :class="$style['button-container']">
-      <ElmButton block @click="() => fileInputRef?.click()">
+      <ElmButton block :disabled="loading" @click="() => fileInputRef?.click()">
         <ElmMdiIcon :d="mdiImagePlus" size="1.25rem" />
         <ElmInlineText text="Select File" />
       </ElmButton>
 
-      <ElmButton block @click="() => (selectedFiles = [])">
+      <ElmButton block :disabled="loading" @click="() => (selectedFiles = [])">
         <ElmMdiIcon :d="mdiImageOff" color="#c56565" size="1.25rem" />
         <ElmInlineText color="#c56565" text="Clear All" />
       </ElmButton>
@@ -32,6 +32,8 @@
 import { ElmButton, ElmInlineText, ElmMdiIcon } from "@elmethis/core";
 import { mdiAlert, mdiImagePlus, mdiImageOff } from "@mdi/js";
 import { ref } from "vue";
+
+defineProps<{ loading: boolean }>();
 
 const fileInputRef = ref<HTMLInputElement | null>(null);
 
