@@ -88,5 +88,12 @@ defineProps<{
   justify-content: center;
   align-items: center;
   gap: 0.5rem;
+
+  @media screen and (max-width: 600px) {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 0.5rem;
+  }
 }
 </style>
