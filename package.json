@@ -42,7 +42,7 @@
     "web-image-converter": "^0.1.0"
   },
   "dependencies": {
-    "@elmethis/core": "^0.1.0",
+    "@elmethis/vue": "^0.3.1",
     "@mdi/js": "^7.4.47",
     "@vueuse/core": "^13.1.0"
   }

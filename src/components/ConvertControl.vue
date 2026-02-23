@@ -56,7 +56,7 @@ import {
   ElmInlineText,
   ElmMdiIcon,
   ElmProgress,
-} from "@elmethis/core";
+} from "@elmethis/vue";
 import { mdiImageSync } from "@mdi/js";
 
 import transitionStyle from "../transition.module.scss";
