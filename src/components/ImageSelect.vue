@@ -29,7 +29,7 @@
 </template>
 
 <script setup lang="ts">
-import { ElmButton, ElmInlineText, ElmMdiIcon } from "@elmethis/core";
+import { ElmButton, ElmInlineText, ElmMdiIcon } from "@elmethis/vue";
 import { mdiAlert, mdiImagePlus, mdiImageOff } from "@mdi/js";
 import { ref } from "vue";
 import type { useImageConverter } from "../useImageConverter";

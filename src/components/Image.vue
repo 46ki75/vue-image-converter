@@ -55,7 +55,7 @@
 
 <script setup lang="ts">
 import { mdiImage, mdiDownload, mdiTrashCanOutline } from "@mdi/js";
-import { ElmInlineText, ElmMdiIcon } from "@elmethis/core";
+import { ElmInlineText, ElmMdiIcon } from "@elmethis/vue";
 
 const props = withDefaults(
   defineProps<{
@@ -65,7 +65,7 @@ const props = withDefaults(
   }>(),
   {
     loading: false,
-  }
+  },
 );
 
 const emit = defineEmits<{
@@ -184,7 +184,10 @@ const downloadFile = async ({
 .icon-base {
   padding: 0.125rem;
   border-radius: 0.125rem;
-  transition: background-color 100ms, opacity 100ms, transform 100ms;
+  transition:
+    background-color 100ms,
+    opacity 100ms,
+    transform 100ms;
 }
 
 .icon-enable {

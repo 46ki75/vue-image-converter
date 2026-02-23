@@ -30,7 +30,7 @@
 </template>
 
 <script setup lang="ts">
-import { ElmInlineText, ElmMdiIcon } from "@elmethis/core";
+import { ElmInlineText, ElmMdiIcon } from "@elmethis/vue";
 import { mdiImageOff } from "@mdi/js";
 
 import transitionStyle from "../transition.module.scss";

@@ -88,7 +88,7 @@ import {
   ElmArrowIcon,
   ElmInlineText,
   ElmMdiIcon,
-} from "@elmethis/core";
+} from "@elmethis/vue";
 import Convert from "./ConvertControl.vue";
 import ImageContainer from "./ImageContainer.vue";
 import File from "./FileToImage.vue";
